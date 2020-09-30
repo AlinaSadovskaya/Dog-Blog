@@ -10,7 +10,6 @@ namespace test.Controllers
     {
         public IActionResult Index()
         {
-            int i = 0;
             return View();
         }
         
