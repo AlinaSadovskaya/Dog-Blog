@@ -12,47 +12,53 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Title)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Title)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageUrl)
+            @Html.DisplayNameFor(model => model.Text)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageUrl)
+            @Html.DisplayFor(model => model.Text)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HtmlContents)
+            @Html.DisplayNameFor(model => model.Image)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HtmlContents)
+            @Html.DisplayFor(model => model.Image)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RawHtmlContents)
+            @Html.DisplayNameFor(model => model.Topic)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RawHtmlContents)
-        </dd>
+            @Html.DisplayFor(model => model.Topic.TopicId)
+        </dd class>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.User)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.User.Id)
         </dd class>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DateTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DateTime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Like)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Like)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Dislike)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Dislike)
+        </dd>
     </dl>
     
     <form asp-action="Delete">

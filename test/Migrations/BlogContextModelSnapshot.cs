@@ -157,22 +157,52 @@ namespace test.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Contents")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Dislike")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Like")
+                        .HasColumnType("int");
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserID")
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CommentId");
 
                     b.HasIndex("PostId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("test.Models.Dog", b =>
+                {
+                    b.Property<int>("DogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DogDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DogImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DogName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DogId");
+
+                    b.ToTable("Dogs");
                 });
 
             modelBuilder.Entity("test.Models.Post", b =>
@@ -182,30 +212,37 @@ namespace test.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("HtmlContents")
+                    b.Property<int>("Dislike")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Like")
+                        .HasColumnType("int");
 
-                    b.Property<string>("RawHtmlContents")
+                    b.Property<string>("Text")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("TopicId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("UserID")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("PostId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("TopicId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -217,15 +254,10 @@ namespace test.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("PostId")
-                        .HasColumnType("int");
-
                     b.Property<string>("TopicName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TopicId");
-
-                    b.HasIndex("PostId");
 
                     b.ToTable("Topics");
                 });
@@ -281,6 +313,9 @@ namespace test.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
+
+                    b.Property<bool>("isBlocked")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -356,21 +391,20 @@ namespace test.Migrations
 
                     b.HasOne("test.Models.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("test.Models.Post", b =>
                 {
+                    b.HasOne("test.Models.Topic", "Topic")
+                        .WithMany("Posts")
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("test.Models.User", "User")
                         .WithMany("Posts")
-                        .HasForeignKey("UserID");
-                });
-
-            modelBuilder.Entity("test.Models.Topic", b =>
-                {
-                    b.HasOne("test.Models.Post", null)
-                        .WithMany("Topics")
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

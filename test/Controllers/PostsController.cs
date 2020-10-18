@@ -5,142 +5,211 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 using test.Models;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace test.Controllers
 {
     public class PostsController : Controller
     {
+
+        private readonly UserManager<User> _userManager;
         private readonly BlogContext _context;
-
-        public PostsController(BlogContext context)
+        private readonly IWebHostEnvironment _appEnvironment;
+        private readonly ILogger<PostsController> _logger;
+        public PostsController(UserManager<User> userManager, BlogContext context, IWebHostEnvironment appEnvironment, ILogger<PostsController> logger)
         {
+            _logger = logger;
+            _userManager = userManager;
             _context = context;
+            _appEnvironment = appEnvironment;
         }
 
-        // GET: Posts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var blogContext = _context.Posts.Include(p => p.User);
-            return View(await blogContext.ToListAsync());
+            return View(await _context.Posts.ToListAsync());
+            
         }
 
-        // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                _logger.LogError("Doesn't exist id. Controller:Post. Action:Details");
+                return RedirectPermanent("~/Error/Index?statusCode=404");
             }
 
             var post = await _context.Posts
-                .Include(p => p.User)
                 .FirstOrDefaultAsync(m => m.PostId == id);
             if (post == null)
             {
-                return NotFound();
+                _logger.LogError("Doesn't exist post. Controller:Post. Action:Details");
+                return RedirectPermanent("~/Error/Index?statusCode=404");
             }
+
+            var user = await _context.Users.FindAsync(post.UserId);
+            if (user == null)
+            {
+                _logger.LogError("Doesn't exist user. Controller:Post. Action:Details");
+                return RedirectPermanent("~/Error/Index?statusCode=404");
+            }
+            ViewData["UserName"] = user.UserName;
+            List<Comment> comments = new List<Comment>();
+            foreach (var item in _context.Comments.Include(s => s.Post).Where(s => s.PostId == post.PostId).ToList())
+            {
+                item.User = await _context.Users.FindAsync(item.UserId);
+                comments.Add(item);
+            }
+
+            ViewData["Comment"] = comments;
 
             return View(post);
         }
 
-        // GET: Posts/Create
-        public IActionResult Create()
+        [Authorize]
+        public async Task<IActionResult> Create()
         {
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (!user.isBlocked)
+            {
+                SelectList topics = new SelectList(_context.Topics, "TopicID", "TopicName");
+                ViewBag.Topics = topics;
+                ViewData["topics"] = _context.Topics.ToList();
+                return View();
+            }
+            else
+            {
+                ViewData["Text"] = "Ваша страница заблокирована администратором";
+                return View("~/Views/Shared/TextPage.cshtml");
+            }
         }
 
-        // POST: Posts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PostId,CreatedAt,UpdatedAt,Title,ImageUrl,HtmlContents,RawHtmlContents,UserID")] Post post)
+        public async Task<IActionResult> Create([Bind("PostId,Title,Text,TopicId")] Post post, IFormFile uploadedFile)
         {
             if (ModelState.IsValid)
             {
+                if (uploadedFile != null)
+                {
+                    string path = "/Files/posts/" + uploadedFile.FileName;
+                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await uploadedFile.CopyToAsync(fileStream);
+                    }
+                    post.Image = path;
+                    _context.SaveChanges();
+                }
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                post.User = user;
+                post.DateTime = DateTime.Now;
+                post.Topic = await _context.Topics.FindAsync(post.TopicId);
                 _context.Add(post);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectPermanent("~/Posts/Index");
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", post.UserID);
             return View(post);
         }
 
-        // GET: Posts/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
+
             if (id == null)
             {
-                return NotFound();
+                _logger.LogError("Doesn't exist id. Controller:Post. Action:Edit. id = null");
+                return RedirectPermanent("~/Error/Index?statusCode=404");
             }
 
             var post = await _context.Posts.FindAsync(id);
             if (post == null)
             {
-                return NotFound();
+                _logger.LogError("Doesn't exist post. Controller:Post. Action:Edit. post = null");
+                return RedirectPermanent("~/Error/Index?statusCode=404");
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", post.UserID);
-            return View(post);
+            var user = await _userManager.FindByIdAsync(post.UserId);
+            if (User.Identity.Name.ToString() == user.UserName || User.IsInRole("admin"))
+            {
+                _logger.LogError("Doesn't exist user. Controller:Post. Action:Edit");
+                return RedirectPermanent("~/Error/Index?statusCode=404");
+            }
+            return NotFound();
         }
 
-        // POST: Posts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PostId,CreatedAt,UpdatedAt,Title,ImageUrl,HtmlContents,RawHtmlContents,UserID")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("PostId,Title,Text")] Post post, IFormFile uploadedFile)
         {
+
             if (id != post.PostId)
             {
-                return NotFound();
+                _logger.LogError("Doesn't exist id. Controller:Post. Action:Edit");
+                return RedirectPermanent("~/Error/Index?statusCode=404");
             }
-
+            Post post1 = await _context.Posts.FindAsync(post.PostId);
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(post);
+                    if (post.Text != post1.Text && post1 != null)
+                        post1.Text = post.Text;
+                    if (post.Title != post1.Title && post1 != null)
+                        post1.Title = post.Title;
+                    if (post.Image != post1.Image && post != null)
+                    {
+                        string path = "/Files/" + uploadedFile.FileName;
+                        using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                        {
+                            await uploadedFile.CopyToAsync(fileStream);
+                        }
+                        post1.Image = path;
+                    }
+                    _context.Update(post1);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!PostExists(post.PostId))
                     {
-                        return NotFound();
+                        _logger.LogError("Doesn't exist db. Controller:Post. Action:Edit");
+                        return RedirectPermanent("~/Error/Index?statusCode=404");
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectPermanent("~/Home/Index");
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", post.UserID);
             return View(post);
         }
 
-        // GET: Posts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                _logger.LogError("Doesn't exist id. Controller:Post. Action:Delete");
+                return RedirectPermanent("~/Error/Index?statusCode=404");
             }
 
             var post = await _context.Posts
-                .Include(p => p.User)
                 .FirstOrDefaultAsync(m => m.PostId == id);
             if (post == null)
             {
-                return NotFound();
+                _logger.LogError("Doesn't exist areticle. Controller:Post. Action:Delete");
+                return RedirectPermanent("~/Error/Index?statusCode=404");
             }
 
             return View(post);
         }
 
-        // POST: Posts/Delete/5
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -148,7 +217,7 @@ namespace test.Controllers
             var post = await _context.Posts.FindAsync(id);
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectPermanent("~/Home/Index");
         }
 
         private bool PostExists(int id)

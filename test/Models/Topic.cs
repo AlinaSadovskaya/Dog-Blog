@@ -9,5 +9,6 @@ namespace test.Models
     {
         public int TopicId { get; set; }
         public string TopicName { get; set; }
+        public ICollection<Post> Posts { get; set; }
     }
 }

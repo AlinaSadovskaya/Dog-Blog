@@ -81,17 +81,20 @@ header {
 	left: 0;
 	width: 100%;
 	z-index: 5;
-	
+
 	.navbar-brand {
 		text-transform: uppercase;
 		letter-spacing: .2em;
 		font-weight: 400;
+
 		&.absolute {
 			position: absolute;
+
 			@include media-breakpoint-down(md) {
 				position: relative;
 			}
 		}
+
 		span {
 			color: theme-color('primary');
 		}
@@ -101,22 +104,26 @@ header {
 	.navbar {
 		padding-top: 0;
 		padding-bottom: 0;
-		background: none!important;
+		background: none !important;
 		position: relative;
+
 		@include media-breakpoint-down(lg) {
-			background: rgba(0,0,0,1)!important;
+			background: rgba(0,0,0,1) !important;
 			padding-top: .5rem;
 			padding-bottom: .5rem;
 		}
+
 		.nav-link {
 			padding: 1.7rem 1rem;
-			outline: none!important;
+			outline: none !important;
 			font-size: 12px;
 			text-transform: uppercase;
 			letter-spacing: .2em;
+
 			@include media-breakpoint-down(lg) {
 				padding: .5rem 0rem;
 			}
+
 			&.active {
 				color: $white;
 			}
@@ -139,46 +146,143 @@ header {
 				height: 0;
 				width: 0;
 				position: absolute;
-				pointer-events: none;				
+				pointer-events: none;
 				border-bottom-color: #fff;
 				border-width: 7px;
+
 				@include media-breakpoint-down(md) {
 					display: none;
 				}
 			}
 
 			.dropdown-item {
-				
+
 				&:hover {
 					background: theme-color('primary');
-					color: $white;	
+					color: $white;
 				}
+
 				&.active {
 					background: theme-color('primary');
 					// background: gray('100');
 					color: $white;
 				}
 			}
+
 			a {
 				padding-top: 7px;
 				padding-bottom: 7px;
-
 			}
 		}
+
 		.cta-btn {
 			a {
 				background: theme-color('primary');
-				color: $black!important;
-				padding-left: 20px!important;
-
-				padding-right: 20px!important;
+				color: $black !important;
+				padding-left: 20px !important;
+				padding-right: 20px !important;
 				text-transform: uppercase;
-				padding-top: 26px!important;
-				padding-bottom: 26px!important;
+				padding-top: 26px !important;
+				padding-bottom: 26px !important;
 				line-height: 1;
 				transition: .3s all ease;
+
 				&:hover {
-					color: $white!important;
+					color: $white !important;
+					box-shadow: 2px 0 30px -5px rgba(theme-color('primary'), .9);
+				}
+			}
+		}
+	}
+
+	.navbar2 {
+		padding-top: 0;
+		padding-bottom: 0;
+		background: none !important;
+		position: relative;
+
+		@include media-breakpoint-down(lg) {
+			background: rgba(0,0,0,1) !important;
+			padding-top: .5rem;
+			padding-bottom: .5rem;
+		}
+
+		.nav-link2 {
+			padding: 1.7rem 1rem;
+			outline: none !important;
+			font-size: 12px;
+			text-transform: uppercase;
+			letter-spacing: .2em;
+
+			@include media-breakpoint-down(lg) {
+				padding: .5rem 0rem;
+			}
+
+			&.active {
+				color: $white;
+			}
+		}
+
+		.dropdown-menu2 {
+			font-size: 14px;
+			border-radius: 4px;
+			border: none;
+			box-shadow: 0 2px 30px 0px rgba(0,0,0,.2);
+			min-width: 13em;
+			// position: relative;
+			margin-top: -10px;
+
+			&:before {
+				bottom: 100%;
+				left: 10%;
+				border: solid transparent;
+				content: " ";
+				height: 0;
+				width: 0;
+				position: absolute;
+				pointer-events: none;
+				border-bottom-color: #fff;
+				border-width: 7px;
+
+				@include media-breakpoint-down(md) {
+					display: none;
+				}
+			}
+
+			.dropdown-item2 {
+
+				&:hover {
+					background: theme-color('primary');
+					color: $white;
+				}
+
+				&.active {
+					background: theme-color('primary');
+					// background: gray('100');
+					color: $white;
+				}
+			}
+
+			a2 {
+				padding-top: 7px;
+				padding-bottom: 7px;
+			}
+		}
+
+		.cta-btn2 {
+			a2 {
+				background: theme-color('primary');
+				color: $black !important;
+				padding-left: 20px !important;
+				padding-right: 20px !important;
+				text-transform: uppercase;
+				padding-top: 26px !important;
+				padding-bottom: 26px !important;
+				line-height: 1;
+				transition: .3s all ease;
+
+				&:hover {
+					color: $white !important;
 					box-shadow: 2px 0 30px -5px rgba(theme-color('primary'), .9);
 				}
 			}
