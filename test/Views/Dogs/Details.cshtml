@@ -84,8 +84,11 @@
                 <dl>
                     @Html.DisplayFor(model => model.DogDescription)
                 </dl>
-                <a asp-action="Edit" asp-route-id="@Model.DogId">Edit</a> |
+                @if (User.IsInRole("admin") || ViewData["UserName"] as string == User.Identity.Name)
+                {
+                <a asp-controller="Dogs" asp-action="Edit" asp-route-id="@Model.DogId">Edit</a>
                 <a asp-action="Index">Back to List</a>
+                }
             </div>
         </div>
 

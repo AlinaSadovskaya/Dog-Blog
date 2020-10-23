@@ -13,6 +13,8 @@ using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using test.Service;
+using test.ViewModels;
 
 namespace test.Controllers
 {
@@ -23,18 +25,42 @@ namespace test.Controllers
         private readonly BlogContext _context;
         private readonly IWebHostEnvironment _appEnvironment;
         private readonly ILogger<PostsController> _logger;
-        public PostsController(UserManager<User> userManager, BlogContext context, IWebHostEnvironment appEnvironment, ILogger<PostsController> logger)
+        private readonly ImageService _imageService;
+        private readonly PostRepository _postRepository;
+        List<Topic> _topics;
+        public PostsController(UserManager<User> userManager, BlogContext context, IWebHostEnvironment appEnvironment, ImageService imageService, PostRepository postRepository, ILogger<PostsController> logger)
         {
             _logger = logger;
             _userManager = userManager;
             _context = context;
             _appEnvironment = appEnvironment;
+            _imageService = imageService;
+            _postRepository = postRepository;
         }
 
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index(int? TopicId)
         {
-            return View(await _context.Posts.ToListAsync());
+            this._topics = await _context.Topics.ToListAsync();
+            PostIndexViewModel ivm;
             
+            if (TopicId != null)
+            {
+                List<Post> posts;
+                try
+                {
+                    posts = await _context.Posts.Where(e => e.Topic.TopicId == TopicId).ToListAsync();
+                }
+                catch (Exception)
+                {
+                    _logger.LogError("Doesn't exist id. Controller:Posts. Action:Index");
+                    return RedirectPermanent("~/Error/Index?statusCode=404");
+                }
+                ivm = new PostIndexViewModel { Posts = posts, Topics = _topics };
+                return View(ivm);
+            }
+            ivm = new PostIndexViewModel { Posts = await _context.Posts.ToListAsync(), Topics = _topics };
+            return View(ivm);
+
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -45,8 +71,7 @@ namespace test.Controllers
                 return RedirectPermanent("~/Error/Index?statusCode=404");
             }
 
-            var post = await _context.Posts
-                .FirstOrDefaultAsync(m => m.PostId == id);
+            var post = await _postRepository.FirstOrDefaultAsync(id);
             if (post == null)
             {
                 _logger.LogError("Doesn't exist post. Controller:Post. Action:Details");
@@ -110,13 +135,13 @@ namespace test.Controllers
                 post.User = user;
                 post.DateTime = DateTime.Now;
                 post.Topic = await _context.Topics.FindAsync(post.TopicId);
-                _context.Add(post);
-                await _context.SaveChangesAsync();
+                await _postRepository.Create(post);
                 return RedirectPermanent("~/Posts/Index");
             }
             return View(post);
         }
 
+        [HttpGet]
         [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -127,32 +152,31 @@ namespace test.Controllers
                 return RedirectPermanent("~/Error/Index?statusCode=404");
             }
 
-            var post = await _context.Posts.FindAsync(id);
+            var post = await _postRepository.FirstOrDefaultAsync(id);
             if (post == null)
             {
                 _logger.LogError("Doesn't exist post. Controller:Post. Action:Edit. post = null");
                 return RedirectPermanent("~/Error/Index?statusCode=404");
             }
             var user = await _userManager.FindByIdAsync(post.UserId);
-            if (User.Identity.Name.ToString() == user.UserName || User.IsInRole("admin"))
+            if (User.Identity.Name.ToString() != user.UserName || !User.IsInRole("admin"))
             {
                 _logger.LogError("Doesn't exist user. Controller:Post. Action:Edit");
                 return RedirectPermanent("~/Error/Index?statusCode=404");
             }
-            return NotFound();
+            return View(post);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PostId,Title,Text")] Post post, IFormFile uploadedFile)
+        public async Task<IActionResult> Edit(int id, [Bind("PostId,Title,Text,Image")] Post post, IFormFile uploadedFile)
         {
-
             if (id != post.PostId)
             {
-                _logger.LogError("Doesn't exist id. Controller:Post. Action:Edit");
+                _logger.LogError("Doesn't exist id. Controller:Article. Action:Edit");
                 return RedirectPermanent("~/Error/Index?statusCode=404");
             }
-            Post post1 = await _context.Posts.FindAsync(post.PostId);
+            Post post1 = await _postRepository.FirstOrDefaultAsync(post.PostId);
             if (ModelState.IsValid)
             {
                 try
@@ -161,23 +185,17 @@ namespace test.Controllers
                         post1.Text = post.Text;
                     if (post.Title != post1.Title && post1 != null)
                         post1.Title = post.Title;
-                    if (post.Image != post1.Image && post != null)
+                    if (post.Image != post1.Image && post1.Image != null)
                     {
-                        string path = "/Files/" + uploadedFile.FileName;
-                        using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-                        {
-                            await uploadedFile.CopyToAsync(fileStream);
-                        }
-                        post1.Image = path;
+                        post1.Image = await _imageService.SaveImageAsync(uploadedFile, 1);
                     }
-                    _context.Update(post1);
-                    await _context.SaveChangesAsync();
+                    await _postRepository.Update(post1);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!PostExists(post.PostId))
                     {
-                        _logger.LogError("Doesn't exist db. Controller:Post. Action:Edit");
+                        _logger.LogError("Doesn't exist db. Controller:Article. Action:Edit");
                         return RedirectPermanent("~/Error/Index?statusCode=404");
                     }
                     else
@@ -185,7 +203,7 @@ namespace test.Controllers
                         throw;
                     }
                 }
-                return RedirectPermanent("~/Home/Index");
+                return RedirectPermanent("~/");
             }
             return View(post);
         }
@@ -198,8 +216,7 @@ namespace test.Controllers
                 return RedirectPermanent("~/Error/Index?statusCode=404");
             }
 
-            var post = await _context.Posts
-                .FirstOrDefaultAsync(m => m.PostId == id);
+            var post = await _postRepository.FirstOrDefaultAsync(id);
             if (post == null)
             {
                 _logger.LogError("Doesn't exist areticle. Controller:Post. Action:Delete");
@@ -214,15 +231,14 @@ namespace test.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var post = await _context.Posts.FindAsync(id);
-            _context.Posts.Remove(post);
-            await _context.SaveChangesAsync();
-            return RedirectPermanent("~/Home/Index");
+            var post = await _postRepository.FirstOrDefaultAsync(id);
+            await _postRepository.Remove(post);
+            return RedirectPermanent("~/");
         }
 
         private bool PostExists(int id)
         {
-            return _context.Posts.Any(e => e.PostId == id);
+            return _postRepository.Any(id);
         }
     }
 }

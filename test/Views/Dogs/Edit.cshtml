@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="DogId" />
             <div class="form-group">
@@ -25,7 +25,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="DogImage" class="control-label"></label>
-                <input asp-for="DogImage" class="form-control" />
+                <img style='width:295px; height:100px;' src="@Html.DisplayFor(model => model.DogImage)" />
+                <div class="editor-field">
+                    <input type="file" name="uploadedFile" />
+                </div>
                 <span asp-validation-for="DogImage" class="text-danger"></span>
             </div>
             <div class="form-group">

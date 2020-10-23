@@ -4,17 +4,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using test.Models;
 using test.ViewModels;
-
+using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace test.Controllers
 {
     public class UsersController : Controller
     {
         UserManager<User> _userManager;
+        private readonly BlogContext _context;
 
-        public UsersController(UserManager<User> userManager)
+        public UsersController(UserManager<User> userManager, BlogContext context)
         {
             _userManager = userManager;
+            _context = context;
         }
 
         public IActionResult Index() => View(_userManager.Users.ToList());
@@ -139,6 +143,32 @@ namespace test.Controllers
                 }
             }
             return View(model);
+        }
+
+
+       
+
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> UserBlocked(string? UserName)
+        {
+            var profile = await _context.Users.Where(e => e.UserName == UserName).ToListAsync();
+            if (profile[0].isBlocked)
+            {
+                profile[0].isBlocked = false;
+            }
+            else
+            {
+                profile[0].isBlocked = true;
+            }
+            _context.Update(profile[0]);
+            await _context.SaveChangesAsync();
+            return View("Index", await _context.Users.Where(e => e.UserName != "admin").ToListAsync());
+        }
+
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> AdminPage(string? UserName)
+        {
+            return View(await _context.Users.Where(e => e.UserName != "admin").ToListAsync());
         }
     }
 }

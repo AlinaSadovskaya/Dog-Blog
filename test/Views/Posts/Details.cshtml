@@ -93,7 +93,7 @@
                 </dd>
                 @if (User.IsInRole("admin") || ViewData["UserName"] as string == User.Identity.Name)
                 {
-                <a asp-controller="Posts" asp-action="Edit" asp-route-id="@Model.PostId">Edit</a>
+                <a asp-action="Edit" asp-route-id="@Model.PostId">Edit</a>
                 <a asp-action="Index">Back to List</a>
                 }
                

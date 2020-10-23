@@ -1,4 +1,9 @@
-﻿@model IEnumerable<test.Models.Post>
+﻿@using test.ViewModels
+@using test.Models
+@model PostIndexViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
 <!doctype html>
 <html lang="en">
 <head>
@@ -44,23 +49,23 @@
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link"> @User.Identity.Name</a>
-                            </li>
-                            <li class="nav-item">
-                                <form method="post" asp-controller="Account" asp-action="Logout">
-                                    <input style="color:#000000" class="nav-link" type="submit" value="Выход" />
-                                </form>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link"> @User.Identity.Name</a>
+                        </li>
+                        <li class="nav-item">
+                            <form method="post" asp-controller="Account" asp-action="Logout">
+                                <input style="color:#000000" class="nav-link" type="submit" value="Выход" />
+                            </form>
+                        </li>
                         }
                         else
                         {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Account" asp-action="Login">Вход    </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Account" asp-action="Register">Регистрация</a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="Login">Вход    </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="Register">Регистрация</a>
+                        </li>
                         }
                     </ul>
 
@@ -82,28 +87,36 @@
                     <p class="mb-5 lead">Чтобы воспитать послушную собаку, нужно выработать в ней привязанность и способность подчиняться. Для этого надо стать для неё авторитетом, т.е. стать вожаком. Быть настойчивым, требовательным. Но в тоже время заботливым, добрым, внимательным, терпеливым.</p>
                 </div>
             </div>
-
+            <form class="form-inline">
+                <label>Выберите компанию:</label>
+                <select name="TopicId" class="form-control">
+                    @foreach(Topic topic in Model.Topics)
+        {
+            
+                    <option value="@topic.TopicId">@topic.TopicName</option>
+        }
+                </select>
+                <input type="submit" />
+            </form>
             <p>
                 <a asp-action="Create">Create New</a>
             </p>
 
-            @foreach (var item in Model)
+            @foreach (Post item in Model.Posts)
             {
 
-                <div class="row">
-                    <div class="col-md-6">
+            <div class="col-md-6">
 
-                        <div class="media mb-4 d-md-flex d-block element-animate">
-                            <a asp-controller="Posts" asp-action="Details" asp-route-id="@item.PostId" class="mr-5"><img src="@Html.DisplayFor(modelItem => item.Image)" alt="Placeholder image" class="img-fluid"></a>
-                            <div class="media-body">
-                                <span class="post-meta">@Html.DisplayFor(modelItem => item.DateTime)</span>
-                                <h3 class="mt-2 text-black"><a asp-controller="Posts" asp-action="Details" asp-route-id="@item.PostId">@Html.DisplayFor(modelItem => item.Title)</a></h3>
-                                <p>@Html.DisplayFor(modelItem => item.Text)</p>
-                                <p><a asp-controller="Posts" asp-action="Details" asp-route-id="@item.PostId" class="btn btn-primary btn-sm">Read more</a></p>
-                            </div>
-                        </div>
+                <div class="media mb-4 d-md-flex d-block element-animate">
+                    <a asp-controller="Posts" asp-action="Details" asp-route-id="@item.PostId" class="mr-5"><img src="@Html.DisplayFor(modelItem => item.Image)" alt="Placeholder image" class="img-fluid"></a>
+                    <div class="media-body">
+                        <span class="post-meta">@Html.DisplayFor(modelItem => item.DateTime)</span>
+                        <h3 class="mt-2 text-black"><a asp-controller="Posts" asp-action="Details" asp-route-id="@item.PostId">@Html.DisplayFor(modelItem => item.Title)</a></h3>
+                        <p>@Html.DisplayFor(modelItem => item.Text)</p>
+                        <p><a asp-controller="Posts" asp-action="Details" asp-route-id="@item.PostId" class="btn btn-primary btn-sm">Read more</a></p>
                     </div>
                 </div>
+            </div>
             }
 
         </div>

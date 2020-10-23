@@ -21,23 +21,28 @@ namespace test
         {
 
             var host = CreateHostBuilder(args).Build();
-            Log.Logger = new LoggerConfiguration()
-                .Enrich.FromLogContext()
-                .WriteTo.File("Logs\\AllLogs.txt")
-                .WriteTo.Logger(lc => lc
-                .Filter.ByIncludingOnly(le => le.Level == LogEventLevel.Error)
-                .WriteTo.File("Logs\\ErrorLogs.txt"))
-                .WriteTo.Logger(lc => lc
-                .Filter.ByIncludingOnly(le => le.Level == LogEventLevel.Error)
-                .WriteTo.Console())
-                .CreateLogger();
+
+            
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 try
                 {
                     var userManager = services.GetRequiredService<UserManager<User>>();
+                    var config = services.GetRequiredService<IConfiguration>();
                     var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+                    Log.Logger = new LoggerConfiguration()
+                    .Enrich.FromLogContext()
+                    .WriteTo.File(config["AllLogs"])
+                    .WriteTo.Logger(lc => lc
+                    .Filter.ByIncludingOnly(le => le.Level == LogEventLevel.Error)
+                    .WriteTo.File(config["ErrorLogs"]))
+                    .WriteTo.Logger(lc => lc
+                    .Filter.ByIncludingOnly(le => le.Level == LogEventLevel.Error)
+                    .WriteTo.Console())
+                    .CreateLogger();
+
                     await CustomIdentityApp.RoleInitializer.InitializeAsync(userManager, rolesManager);
                 }
                 catch (Exception ex)

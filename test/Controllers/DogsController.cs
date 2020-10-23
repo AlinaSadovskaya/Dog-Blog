@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using test.Models;
+using test.Service;
 
 namespace test.Controllers
 {
@@ -17,10 +18,12 @@ namespace test.Controllers
     {
         private readonly BlogContext _context;
         private readonly IWebHostEnvironment _appEnvironment;
-        public DogsController(BlogContext context, IWebHostEnvironment appEnvironment)
+        private readonly ImageService _imageService;
+        public DogsController(BlogContext context, IWebHostEnvironment appEnvironment, ImageService imageService)
         {
                 _context = context;
                 _appEnvironment = appEnvironment;
+                _imageService = imageService;
         }
 
         // GET: Dogs
@@ -65,12 +68,7 @@ namespace test.Controllers
             {
                 if (uploadedFile != null)
                 {
-                    string path = "/Files/dogs/" + uploadedFile.FileName;
-                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-                    {
-                        await uploadedFile.CopyToAsync(fileStream);
-                    }
-                    dog.DogImage = path;
+                    dog.DogImage = await _imageService.SaveImageAsync(uploadedFile, 0);
                     _context.SaveChanges();
                 }
                 _context.Add(dog);
@@ -101,32 +99,42 @@ namespace test.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DogId,DogName,DogDescription,DogImage")] Dog dog)
+        public async Task<IActionResult> Edit(int id, [Bind("DogId,DogName,DogDescription,DogImage")] Dog dog, IFormFile uploadedFile)
         {
             if (id != dog.DogId)
             {
                 return NotFound();
             }
-
+            
+            Dog dog1 = await _context.Dogs
+                .FirstOrDefaultAsync(m => m.DogId == id);
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(dog);
+                    if (dog.DogDescription != dog1.DogDescription && dog1.DogDescription != null)
+                        dog1.DogDescription = dog.DogDescription;
+                    if (dog.DogName != dog1.DogName && dog1.DogName != null)
+                        dog1.DogName = dog.DogName;
+                    if (dog.DogImage != dog1.DogImage && dog1.DogImage != null)
+                    {
+                        dog1.DogImage = await _imageService.SaveImageAsync(uploadedFile, 0);
+                    }
+                    _context.Update(dog1);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!DogExists(dog.DogId))
                     {
-                        return NotFound();
+                        return RedirectPermanent("~/Error/Index?statusCode=404");
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectPermanent("~/Dogs");
             }
             return View(dog);
         }
