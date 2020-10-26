@@ -88,39 +88,39 @@
                 </div>
             </div>
             <form class="form-inline">
-                <label>Выберите компанию:</label>
-                <select name="TopicId" class="form-control">
-                    @foreach(Topic topic in Model.Topics)
-        {
-            
-                    <option value="@topic.TopicId">@topic.TopicName</option>
-        }
+                <label>Выберите тему:</label>
+                <select name="TopicId" class="form-control form-control-lg">
+                    <option value=null>-------------------</option>
+                    @foreach (Topic topic in Model.Topics)
+                    {
+                        <option value="@topic.TopicId">@topic.TopicName</option>
+                    }
                 </select>
-                <input type="submit" />
+                <input type="submit" class="btn btn-sm btn-primary" value="OK" />
             </form>
             <p>
                 <a asp-action="Create">Create New</a>
             </p>
+            <div class="row">
+                @foreach (Post item in Model.Posts)
+                {
 
-            @foreach (Post item in Model.Posts)
-            {
+                    <div class="col-md-6">
 
-            <div class="col-md-6">
-
-                <div class="media mb-4 d-md-flex d-block element-animate">
-                    <a asp-controller="Posts" asp-action="Details" asp-route-id="@item.PostId" class="mr-5"><img src="@Html.DisplayFor(modelItem => item.Image)" alt="Placeholder image" class="img-fluid"></a>
-                    <div class="media-body">
-                        <span class="post-meta">@Html.DisplayFor(modelItem => item.DateTime)</span>
-                        <h3 class="mt-2 text-black"><a asp-controller="Posts" asp-action="Details" asp-route-id="@item.PostId">@Html.DisplayFor(modelItem => item.Title)</a></h3>
-                        <p>@Html.DisplayFor(modelItem => item.Text)</p>
-                        <p><a asp-controller="Posts" asp-action="Details" asp-route-id="@item.PostId" class="btn btn-primary btn-sm">Read more</a></p>
+                        <div class="media mb-4 d-md-flex d-block element-animate">
+                            <a asp-controller="Posts" asp-action="Details" asp-route-id="@item.PostId" class="mr-5"><img src="@Html.DisplayFor(modelItem => item.Image)" alt="Placeholder image" class="img-fluid"></a>
+                            <div class="media-body">
+                                <span class="post-meta">@Html.DisplayFor(modelItem => item.DateTime)</span>
+                                <h3 class="mt-2 text-black"><a asp-controller="Posts" asp-action="Details" asp-route-id="@item.PostId">@Html.DisplayFor(modelItem => item.Title)</a></h3>
+                                <p>@Html.DisplayFor(modelItem => item.Text)</p>
+                                <p><a asp-controller="Posts" asp-action="Details" asp-route-id="@item.PostId" class="btn btn-primary btn-sm">Read more</a></p>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
-            }
-
-        </div>
-    </section>
+            </div>
+</section>
 
 
 

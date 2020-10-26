@@ -518,3 +518,55 @@ System.InvalidOperationException: The view 'AdminPage' was not found. The follow
 2020-10-24 01:36:30.999 +03:00 [ERR] Error. Status code 404
 2020-10-24 01:36:31.045 +03:00 [ERR] Error. Status code 404
 2020-10-24 01:37:21.657 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:43:16.779 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:43:25.945 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:43:26.075 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:47:03.925 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:48:26.265 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:48:33.166 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:48:38.669 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:48:52.587 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:49:11.707 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:52:15.267 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:52:21.035 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:54:28.638 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:54:28.897 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:54:38.039 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:54:38.219 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:55:02.924 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:58:26.209 +03:00 [ERR] Error. Status code 404
+2020-10-24 01:58:30.564 +03:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Templates can be used only with field access, property access, single-dimension array index, or single-parameter custom indexer expressions.
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ExpressionMetadataProvider.FromLambdaExpression[TModel,TResult](Expression`1 expression, ViewDataDictionary`1 viewData, IModelMetadataProvider metadataProvider)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ModelExpressionProvider.CreateModelExpression[TModel,TValue](ViewDataDictionary`1 viewData, Expression`1 expression)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.HtmlHelper`1.GetModelExpression[TResult](Expression`1 expression)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.HtmlHelper`1.DisplayFor[TResult](Expression`1 expression, String templateName, String htmlFieldName, Object additionalViewData)
+   at Microsoft.AspNetCore.Mvc.Rendering.HtmlHelperDisplayExtensions.DisplayFor[TModel,TResult](IHtmlHelper`1 htmlHelper, Expression`1 expression)
+   at AspNetCore.Views_Posts_Index.<ExecuteAsync>b__46_1() in D:\test\test\Views\Posts\Index.cshtml:line 115
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperExecutionContext.SetOutputContentAsync()
+   at AspNetCore.Views_Posts_Index.ExecuteAsync() in D:\test\test\Views\Posts\Index.cshtml:line 5
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|29_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-10-24 02:01:30.377 +03:00 [ERR] Error. Status code 404
+2020-10-24 02:01:33.003 +03:00 [ERR] Error. Status code 404

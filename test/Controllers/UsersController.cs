@@ -151,16 +151,16 @@ namespace test.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> UserBlocked(string? UserName)
         {
-            var profile = await _context.Users.Where(e => e.UserName == UserName).ToListAsync();
-            if (profile[0].isBlocked)
+            var user = await _context.Users.Where(e => e.UserName == UserName).ToListAsync();
+            if (user[0].isBlocked)
             {
-                profile[0].isBlocked = false;
+                user[0].isBlocked = false;
             }
             else
             {
-                profile[0].isBlocked = true;
+                user[0].isBlocked = true;
             }
-            _context.Update(profile[0]);
+            _context.Update(user[0]);
             await _context.SaveChangesAsync();
             return View("Index", await _context.Users.Where(e => e.UserName != "admin").ToListAsync());
         }
