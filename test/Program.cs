@@ -8,7 +8,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using test.Models;
+using test.Domain.Core;
+using test.Services.BusinessLogic;
+using test.Domain.Interfaces;
+using test.Infrastructure.Data;
+using test.ViewModels;
 using Serilog;
 using Serilog.Events;
 
@@ -43,7 +47,7 @@ namespace test
                     .WriteTo.Console())
                     .CreateLogger();
 
-                    await CustomIdentityApp.RoleInitializer.InitializeAsync(userManager, rolesManager);
+                    await test.Infrastructure.Data.RoleInitializer.InitializeAsync(userManager, rolesManager);
                 }
                 catch (Exception ex)
                 {

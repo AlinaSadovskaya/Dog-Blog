@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using test.Models;
+using test.Infrastructure.Data;
+using test.Domain.Core;
 using test.ViewModels;
 
 namespace test.Controllers

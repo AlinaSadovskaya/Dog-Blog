@@ -2,7 +2,10 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using test.Models;
+using test.Services.BusinessLogic;
+using test.Domain.Core;
+using test.Domain.Interfaces;
+using test.Infrastructure.Data;
 using test.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;

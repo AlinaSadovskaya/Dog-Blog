@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="2.9.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.9" />
+    <PackageReference Include="MimeKit" Version="2.9.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\test.Domain.Core\test.Domain.Core.csproj" />
+    <ProjectReference Include="..\test.Domain.Interfaces\test.Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\test.Infrastructure.Data\test.Infrastructure.Data.csproj" />
+  </ItemGroup>
+
+</Project>

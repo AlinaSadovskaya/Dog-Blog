@@ -6,14 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
-using test.Models;
-using Microsoft.EntityFrameworkCore.Internal;
+using test.Services.BusinessLogic;
+using test.Domain.Core;
+using test.Domain.Interfaces;
+using test.Infrastructure.Data;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using test.Service;
 using test.ViewModels;
 
 namespace test.Controllers

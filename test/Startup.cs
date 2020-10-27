@@ -10,8 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using test.Models;
-using test.Service;
+using test.Domain.Core;
+using test.Services.BusinessLogic;
+using test.Infrastructure.Data;
 using test.HubS;
 
 namespace test

@@ -1,4 +1,4 @@
-﻿@model test.Models.Post
+﻿@model test.Domain.Core.Post
 
 @{
     ViewData["Title"] = "Create";
@@ -29,7 +29,7 @@
             <div class="form-group">
                 <label asp-for="TopicId" class="control-label"></label>
                 <select class="form-control" name="TopicId">
-                    @foreach (test.Models.Topic topic in (ViewData["Topics"] as IList<test.Models.Topic>))
+                    @foreach (test.Domain.Core.Topic topic in (ViewData["Topics"] as IList<test.Domain.Core.Topic>))
                     {
                     <option value="@topic.TopicId">@topic.TopicName</option>
                      }

@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using test.Models;
+using test.Domain.Core;
+using test.Infrastructure.Data;
 
 namespace test.Controllers
 {

@@ -1,4 +1,4 @@
-﻿@model test.Models.Post
+﻿@model test.Domain.Core.Post
 
 @{ ViewData["Title"] = "Details"; }
 
@@ -121,7 +121,7 @@
                 </dd>       
             }
         <ul style="min-height:300px;height:auto;background-color:white; border-radius:5px;" id="messagesList">
-            @foreach (var item in ViewData["Comment"] as IList<test.Models.Comment>)
+            @foreach (var item in ViewData["Comment"] as IList<test.Domain.Core.Comment>)
             {
                 
                 @if (User.IsInRole("specialist"))

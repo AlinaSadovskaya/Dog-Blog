@@ -9,8 +9,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using test.Models;
-using test.Service;
+using test.Domain.Core;
+using test.Infrastructure.Data;
+using test.Services.BusinessLogic;
+
 
 namespace test.Controllers
 {

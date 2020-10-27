@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using test.ViewModels;
-using test.Models;
-using test.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using test.ViewModels;
+using test.Domain.Core;
+using test.Services.BusinessLogic;
 
 namespace EmailApp.Controllers
 {

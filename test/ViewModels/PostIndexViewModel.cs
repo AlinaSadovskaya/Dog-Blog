@@ -1,4 +1,4 @@
-﻿using test.Models;
+﻿using test.Domain.Core;
 using System.Collections.Generic;
 
 namespace test.ViewModels
