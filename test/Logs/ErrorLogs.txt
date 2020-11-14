@@ -580,3 +580,64 @@ System.InvalidOperationException: Templates can be used only with field access, 
 2020-10-27 23:39:31.450 +03:00 [ERR] Error. Status code 404
 2020-10-27 23:39:48.158 +03:00 [ERR] Error. Status code 404
 2020-10-27 23:39:52.515 +03:00 [ERR] Error. Status code 404
+2020-10-28 15:42:21.397 +03:00 [ERR] Error. Status code 404
+2020-10-28 15:42:46.914 +03:00 [ERR] Error. Status code 404
+2020-10-28 15:53:49.164 +03:00 [ERR] Error. Status code 404
+2020-10-28 15:53:49.264 +03:00 [ERR] Error. Status code 404
+2020-10-28 16:02:14.848 +03:00 [ERR] Error. Status code 404
+2020-10-28 16:02:24.473 +03:00 [ERR] Error. Status code 404
+2020-10-28 16:02:24.557 +03:00 [ERR] Error. Status code 404
+2020-10-28 20:23:59.501 +03:00 [ERR] Error. Status code 404
+2020-10-28 20:28:21.865 +03:00 [ERR] Error. Status code 404
+2020-10-28 21:16:28.237 +03:00 [ERR] Error. Status code 404
+2020-10-28 21:27:56.551 +03:00 [ERR] Error. Status code 404
+2020-10-28 21:28:07.879 +03:00 [ERR] Error. Status code 404
+2020-10-28 21:30:47.685 +03:00 [ERR] Error. Status code 404
+2020-10-28 21:38:29.837 +03:00 [ERR] Error. Status code 404
+2020-10-28 21:47:03.458 +03:00 [ERR] Error. Status code 404
+2020-10-28 21:47:15.957 +03:00 [ERR] Error. Status code 405
+2020-10-28 21:48:12.831 +03:00 [ERR] Error. Status code 404
+2020-10-28 21:48:34.445 +03:00 [ERR] Error. Status code 405
+2020-10-28 21:49:33.307 +03:00 [ERR] Error. Status code 404
+2020-10-28 21:49:52.349 +03:00 [ERR] Error. Status code 405
+2020-10-28 21:54:05.268 +03:00 [ERR] Error. Status code 404
+2020-10-28 21:54:05.601 +03:00 [ERR] Error. Status code 404
+2020-10-28 21:54:07.831 +03:00 [ERR] Error. Status code 404
+2020-10-28 21:54:08.067 +03:00 [ERR] Error. Status code 404
+2020-10-28 21:54:12.131 +03:00 [ERR] Error. Status code 405
+2020-10-28 21:54:32.983 +03:00 [ERR] Error. Status code 404
+2020-10-28 21:54:33.139 +03:00 [ERR] Error. Status code 404
+2020-10-28 21:54:42.848 +03:00 [ERR] Error. Status code 405
+2020-10-28 21:55:44.171 +03:00 [ERR] Error. Status code 404
+2020-10-28 21:56:17.627 +03:00 [ERR] Error. Status code 404
+2020-10-28 21:56:17.685 +03:00 [ERR] Error. Status code 404
+2020-10-28 22:04:18.272 +03:00 [ERR] Error. Status code 404
+2020-10-30 17:52:28.681 +03:00 [ERR] Error. Status code 404
+2020-10-30 17:52:29.059 +03:00 [ERR] Error. Status code 404
+2020-10-30 17:53:45.066 +03:00 [ERR] Error. Status code 404
+2020-10-30 17:53:50.854 +03:00 [ERR] An unhandled exception has occurred while executing the request.
+System.Exception: An error was encountered while handling the remote login.
+ ---> System.Exception: Correlation failed.
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Authentication.RemoteAuthenticationHandler`1.HandleRequestAsync()
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-10-30 17:53:56.033 +03:00 [ERR] An unhandled exception has occurred while executing the request.
+System.Exception: An error was encountered while handling the remote login.
+ ---> System.Exception: Correlation failed.
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Authentication.RemoteAuthenticationHandler`1.HandleRequestAsync()
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-10-30 17:54:03.300 +03:00 [ERR] Error. Status code 404
+2020-10-30 17:54:03.402 +03:00 [ERR] Error. Status code 404
+2020-10-30 17:54:07.927 +03:00 [ERR] Error. Status code 404
+2020-10-30 17:54:36.914 +03:00 [ERR] Error. Status code 404
+2020-10-30 17:55:16.446 +03:00 [ERR] Error. Status code 404
+2020-10-30 17:55:16.639 +03:00 [ERR] Error. Status code 404
+2020-10-30 17:55:22.566 +03:00 [ERR] Error. Status code 404
+2020-10-30 18:02:34.899 +03:00 [ERR] Error. Status code 404
+2020-10-30 18:02:49.995 +03:00 [ERR] Error. Status code 404
+2020-10-30 18:02:50.096 +03:00 [ERR] Error. Status code 404

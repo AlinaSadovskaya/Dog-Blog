@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using test.Domain.Core;
 using test.Infrastructure.Data;
 
 namespace test.Migrations
@@ -151,7 +150,7 @@ namespace test.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("test.Models.Comment", b =>
+            modelBuilder.Entity("test.Domain.Core.Comment", b =>
                 {
                     b.Property<int>("CommentId")
                         .ValueGeneratedOnAdd()
@@ -185,7 +184,7 @@ namespace test.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("test.Models.Dog", b =>
+            modelBuilder.Entity("test.Domain.Core.Dog", b =>
                 {
                     b.Property<int>("DogId")
                         .ValueGeneratedOnAdd()
@@ -206,7 +205,7 @@ namespace test.Migrations
                     b.ToTable("Dogs");
                 });
 
-            modelBuilder.Entity("test.Models.Post", b =>
+            modelBuilder.Entity("test.Domain.Core.Post", b =>
                 {
                     b.Property<int>("PostId")
                         .ValueGeneratedOnAdd()
@@ -248,7 +247,7 @@ namespace test.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("test.Models.Topic", b =>
+            modelBuilder.Entity("test.Domain.Core.Topic", b =>
                 {
                     b.Property<int>("TopicId")
                         .ValueGeneratedOnAdd()
@@ -263,7 +262,7 @@ namespace test.Migrations
                     b.ToTable("Topics");
                 });
 
-            modelBuilder.Entity("test.Models.User", b =>
+            modelBuilder.Entity("test.Domain.Core.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -342,7 +341,7 @@ namespace test.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("test.Models.User", null)
+                    b.HasOne("test.Domain.Core.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -351,7 +350,7 @@ namespace test.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("test.Models.User", null)
+                    b.HasOne("test.Domain.Core.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -366,7 +365,7 @@ namespace test.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("test.Models.User", null)
+                    b.HasOne("test.Domain.Core.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -375,35 +374,35 @@ namespace test.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("test.Models.User", null)
+                    b.HasOne("test.Domain.Core.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("test.Models.Comment", b =>
+            modelBuilder.Entity("test.Domain.Core.Comment", b =>
                 {
-                    b.HasOne("test.Models.Post", "Post")
+                    b.HasOne("test.Domain.Core.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("test.Models.User", "User")
+                    b.HasOne("test.Domain.Core.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("test.Models.Post", b =>
+            modelBuilder.Entity("test.Domain.Core.Post", b =>
                 {
-                    b.HasOne("test.Models.Topic", "Topic")
+                    b.HasOne("test.Domain.Core.Topic", "Topic")
                         .WithMany("Posts")
                         .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("test.Models.User", "User")
+                    b.HasOne("test.Domain.Core.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId");
                 });
