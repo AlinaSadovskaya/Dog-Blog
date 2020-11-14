@@ -12,9 +12,9 @@ namespace test.Controllers
     {
         private readonly ILogger<Error> _logger;
 
-        public Error(ILogger<Error> logger)
+        public Error(ILogger<Error> loggerr)
         {
-            _logger = logger;
+            _logger = loggerr;
         }
 
         public IActionResult Index(int? statusCode = null)
