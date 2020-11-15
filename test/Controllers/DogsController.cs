@@ -69,10 +69,15 @@ namespace test.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (uploadedFile != null)
+                if (uploadedFile != null && uploadedFile.ContentType.ToLower().Contains("image"))
                 {
                     dog.DogImage = await _imageService.SaveImageAsync(uploadedFile, 0);
                     _context.SaveChanges();
+                }
+                else
+                {
+                    ModelState.AddModelError("Image", "Некорректный формат");
+                    return View(dog);
                 }
                 await _dogRepository.Create(dog);
                 return RedirectToAction(nameof(Index));
@@ -118,9 +123,14 @@ namespace test.Controllers
                         dog1.DogDescription = dog.DogDescription;
                     if (dog.DogName != dog1.DogName && dog1.DogName != null)
                         dog1.DogName = dog.DogName;
-                    if (dog.DogImage != dog1.DogImage && dog1.DogImage != null)
+                    if (dog.DogImage != dog1.DogImage && dog1.DogImage != null && uploadedFile != null && uploadedFile.ContentType.ToLower().Contains("image"))
                     {
                         dog1.DogImage = await _imageService.SaveImageAsync(uploadedFile, 0);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Image", "Некорректный формат");
+                        return View(dog);
                     }
                     await _dogRepository.Update(dog1);
                 }

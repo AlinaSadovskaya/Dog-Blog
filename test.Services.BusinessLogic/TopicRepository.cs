@@ -57,6 +57,10 @@ namespace test.Services.BusinessLogic
             }
             this.disposed = true;
         }
+        public async Task<List<Topic>> FindAll()
+        {
+            return await _context.Topics.ToListAsync();
+        }
 
         public void Dispose()
         {

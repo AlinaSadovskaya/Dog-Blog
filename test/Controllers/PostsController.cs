@@ -28,8 +28,9 @@ namespace test.Controllers
         private readonly ILogger<PostsController> _logger;
         private readonly ImageService _imageService;
         private readonly PostRepository _postRepository;
+        private readonly TopicRepository _topicRepository;
         List<Topic> _topics;
-        public PostsController(UserManager<User> userManager, BlogContext context, IWebHostEnvironment appEnvironment, ImageService imageService, PostRepository postRepository, ILogger<PostsController> logger)
+        public PostsController(UserManager<User> userManager, BlogContext context, IWebHostEnvironment appEnvironment, ImageService imageService, PostRepository postRepository, ILogger<PostsController> logger, TopicRepository topicRepository)
         {
             _logger = logger;
             _userManager = userManager;
@@ -37,6 +38,7 @@ namespace test.Controllers
             _appEnvironment = appEnvironment;
             _imageService = imageService;
             _postRepository = postRepository;
+            _topicRepository = topicRepository;
         }
 
         public async Task<IActionResult> Index(int? TopicId)
@@ -122,15 +124,15 @@ namespace test.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (uploadedFile != null)
+                if (uploadedFile != null && uploadedFile != null && uploadedFile.ContentType.ToLower().Contains("image"))
                 {
-                    string path = "/Files/posts/" + uploadedFile.FileName;
-                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-                    {
-                        await uploadedFile.CopyToAsync(fileStream);
-                    }
-                    post.Image = path;
-                    _context.SaveChanges();
+                    post.Image = await _imageService.SaveImageAsync(uploadedFile, 1);
+                }
+                else
+                {
+                    ModelState.AddModelError("Image", "Некорректный формат");
+                    ViewData["topics"] = await _topicRepository.FindAll();
+                    return View(post);
                 }
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 post.User = user;
@@ -159,12 +161,7 @@ namespace test.Controllers
                 _logger.LogError("Doesn't exist post. Controller:Post. Action:Edit. post = null");
                 return RedirectPermanent("~/Error/Index?statusCode=404");
             }
-            var user = await _userManager.FindByIdAsync(post.UserId);
-            if (User.Identity.Name.ToString() != user.UserName || !User.IsInRole("admin"))
-            {
-                _logger.LogError("Doesn't exist user. Controller:Post. Action:Edit");
-                return RedirectPermanent("~/Error/Index?statusCode=404");
-            }
+            
             return View(post);
         }
 
@@ -186,9 +183,16 @@ namespace test.Controllers
                         post1.Text = post.Text;
                     if (post.Title != post1.Title && post1 != null)
                         post1.Title = post.Title;
-                    if (post.Image != post1.Image && post1.Image != null)
+                   
+                    
+                    if (post.Image != post1.Image && post1.Image != null && uploadedFile != null && uploadedFile.ContentType.ToLower().Contains("image"))
                     {
                         post1.Image = await _imageService.SaveImageAsync(uploadedFile, 1);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Image", "Некорректный формат");
+                        return View(post1);
                     }
                     await _postRepository.Update(post1);
                 }
