@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using test.Domain.Core;
 using test.Infrastructure.Data;
+using test.Services.BusinessLogic;
 
 namespace test.Controllers
 {
     public class TopicsController : Controller
     {
         private readonly BlogContext _context;
+        private readonly TopicRepository _topicRepository;
 
-        public TopicsController(BlogContext context)
+        public TopicsController(BlogContext context, TopicRepository topicRepository)
         {
             _context = context;
+            _topicRepository = topicRepository;
         }
 
         // GET: Topics
@@ -33,8 +36,8 @@ namespace test.Controllers
                 return NotFound();
             }
 
-            var topic = await _context.Topics
-                .FirstOrDefaultAsync(m => m.TopicId == id);
+            var topic = await _topicRepository.FirstOrDefaultAsync(id);
+
             if (topic == null)
             {
                 return NotFound();
@@ -58,8 +61,7 @@ namespace test.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(topic);
-                await _context.SaveChangesAsync();
+                await _topicRepository.Create(topic);
                 return RedirectToAction(nameof(Index));
             }
             return View(topic);
@@ -73,7 +75,8 @@ namespace test.Controllers
                 return NotFound();
             }
 
-            var topic = await _context.Topics.FindAsync(id);
+            var topic = await _topicRepository.FirstOrDefaultAsync(id);
+
             if (topic == null)
             {
                 return NotFound();
@@ -97,7 +100,7 @@ namespace test.Controllers
             {
                 try
                 {
-                    _context.Update(topic);
+                    await _topicRepository.Update(topic);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -124,8 +127,8 @@ namespace test.Controllers
                 return NotFound();
             }
 
-            var topic = await _context.Topics
-                .FirstOrDefaultAsync(m => m.TopicId == id);
+            var topic = await _topicRepository.FirstOrDefaultAsync(id);
+
             if (topic == null)
             {
                 return NotFound();
@@ -139,15 +142,14 @@ namespace test.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var topic = await _context.Topics.FindAsync(id);
-            _context.Topics.Remove(topic);
-            await _context.SaveChangesAsync();
+            var topic = await _topicRepository.FirstOrDefaultAsync(id);
+            await _topicRepository.Remove(topic);
             return RedirectToAction(nameof(Index));
         }
 
         private bool TopicExists(int id)
         {
-            return _context.Topics.Any(e => e.TopicId == id);
+            return _topicRepository.Any(id);
         }
     }
 }

@@ -21,11 +21,13 @@ namespace test.Controllers
         private readonly BlogContext _context;
         private readonly IWebHostEnvironment _appEnvironment;
         private readonly ImageService _imageService;
-        public DogsController(BlogContext context, IWebHostEnvironment appEnvironment, ImageService imageService)
+        private readonly DogRepository _dogRepository;
+        public DogsController(BlogContext context, IWebHostEnvironment appEnvironment, ImageService imageService, DogRepository dogRepository)
         {
                 _context = context;
                 _appEnvironment = appEnvironment;
                 _imageService = imageService;
+                _dogRepository = dogRepository;
         }
 
         // GET: Dogs
@@ -42,8 +44,7 @@ namespace test.Controllers
                 return NotFound();
             }
 
-            var dog = await _context.Dogs
-                .FirstOrDefaultAsync(m => m.DogId == id);
+            var dog = await _dogRepository.FirstOrDefaultAsync(id);
             if (dog == null)
             {
                 return NotFound();
@@ -73,8 +74,7 @@ namespace test.Controllers
                     dog.DogImage = await _imageService.SaveImageAsync(uploadedFile, 0);
                     _context.SaveChanges();
                 }
-                _context.Add(dog);
-                await _context.SaveChangesAsync();
+                await _dogRepository.Create(dog);
                 return RedirectToAction(nameof(Index));
             }
             return View(dog);
@@ -88,7 +88,8 @@ namespace test.Controllers
                 return NotFound();
             }
 
-            var dog = await _context.Dogs.FindAsync(id);
+            var dog = await _dogRepository.FirstOrDefaultAsync(id);
+
             if (dog == null)
             {
                 return NotFound();
@@ -107,9 +108,8 @@ namespace test.Controllers
             {
                 return NotFound();
             }
-            
-            Dog dog1 = await _context.Dogs
-                .FirstOrDefaultAsync(m => m.DogId == id);
+
+            var dog1 = await _dogRepository.FirstOrDefaultAsync(id);
             if (ModelState.IsValid)
             {
                 try
@@ -122,8 +122,7 @@ namespace test.Controllers
                     {
                         dog1.DogImage = await _imageService.SaveImageAsync(uploadedFile, 0);
                     }
-                    _context.Update(dog1);
-                    await _context.SaveChangesAsync();
+                    await _dogRepository.Update(dog1);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -149,8 +148,8 @@ namespace test.Controllers
                 return NotFound();
             }
 
-            var dog = await _context.Dogs
-                .FirstOrDefaultAsync(m => m.DogId == id);
+            var dog = await _dogRepository.FirstOrDefaultAsync(id);
+
             if (dog == null)
             {
                 return NotFound();
@@ -164,15 +163,14 @@ namespace test.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var dog = await _context.Dogs.FindAsync(id);
-            _context.Dogs.Remove(dog);
-            await _context.SaveChangesAsync();
+            var dog = await _dogRepository.FirstOrDefaultAsync(id);
+            await _dogRepository.Remove(dog);
             return RedirectToAction(nameof(Index));
         }
 
         private bool DogExists(int id)
         {
-            return _context.Dogs.Any(e => e.DogId == id);
+            return _dogRepository.Any(id);
         }
     }
 }

@@ -129,7 +129,7 @@
                             <li>
                                 <a href="">Логин:@item.User.UserName</a>
                                 <p>Коментарий:@item.Text</p>
-                                <p>Дата:@item.DateTime</p>
+                                <p>Дата:@item.DateTime.ToString("MM/dd/yyyy HH:mm:ss")</p>
                                 <br />
                             </li> }
                  else
@@ -137,7 +137,7 @@
                             <li>
                                 <p>Логин:@item.User.UserName</p>
                                 <p>Коментарий:@item.Text</p>
-                                <p>Дата:@item.DateTime</p>
+                                <p>Дата:@item.DateTime.ToString("MM/dd/yyyy HH:mm:ss")</p>
                                 <br />
                             </li>}
             }

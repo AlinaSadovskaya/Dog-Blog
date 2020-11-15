@@ -1,47 +1,48 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using test.Domain.Core;
 using test.Domain.Interfaces;
 using test.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace test.Services.BusinessLogic
 {
-    public class PostRepository : IRepository<Post, int>
+    public class TopicRepository : IRepository<Topic, int>
     {
         private readonly BlogContext _context;
-        public PostRepository(BlogContext context)
+        public TopicRepository(BlogContext context)
         {
             _context = context;
         }
 
-        public async Task Create(Post post)
+        public async Task Create(Topic topic)
         {
-            _context.Add(post);
+            _context.Add(topic);
             await _context.SaveChangesAsync();
         }
 
-        public async Task Update(Post post)
+        public async Task Update(Topic topic)
         {
-            _context.Update(post);
+            _context.Update(topic);
             await _context.SaveChangesAsync();
         }
 
         public bool Any(int id)
         {
-            return _context.Posts.Any(e => e.PostId == id); ;
+            return _context.Topics.Any(e => e.TopicId == id); 
         }
-        public async Task Remove(Post post)
+        public async Task Remove(Topic topic)
         {
-            _context.Posts.Remove(post);
+            _context.Topics.Remove(topic);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Post> FirstOrDefaultAsync(int? id)
+        public async Task<Topic> FirstOrDefaultAsync(int? id)
         {
-            return await _context.Posts.FirstOrDefaultAsync(m => m.PostId == id);
+            return await _context.Topics.FirstOrDefaultAsync(m => m.TopicId == id);
         }
         private bool disposed = false;
 
@@ -62,6 +63,6 @@ namespace test.Services.BusinessLogic
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-      
+
     }
 }

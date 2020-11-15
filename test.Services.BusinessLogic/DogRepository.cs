@@ -1,47 +1,48 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using test.Domain.Core;
 using test.Domain.Interfaces;
 using test.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace test.Services.BusinessLogic
 {
-    public class PostRepository : IRepository<Post, int>
+    public class DogRepository : IRepository<Dog, int>
     {
         private readonly BlogContext _context;
-        public PostRepository(BlogContext context)
+        public DogRepository(BlogContext context)
         {
             _context = context;
         }
 
-        public async Task Create(Post post)
+        public async Task Create(Dog dog)
         {
-            _context.Add(post);
+            _context.Add(dog);
             await _context.SaveChangesAsync();
         }
 
-        public async Task Update(Post post)
+        public async Task Update(Dog dog)
         {
-            _context.Update(post);
+            _context.Update(dog);
             await _context.SaveChangesAsync();
         }
 
         public bool Any(int id)
         {
-            return _context.Posts.Any(e => e.PostId == id); ;
+            return _context.Dogs.Any(e => e.DogId == id); ;
         }
-        public async Task Remove(Post post)
+        public async Task Remove(Dog dog)
         {
-            _context.Posts.Remove(post);
+            _context.Dogs.Remove(dog);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Post> FirstOrDefaultAsync(int? id)
+        public async Task<Dog> FirstOrDefaultAsync(int? id)
         {
-            return await _context.Posts.FirstOrDefaultAsync(m => m.PostId == id);
+            return await _context.Dogs.FirstOrDefaultAsync(m => m.DogId == id);
         }
         private bool disposed = false;
 
@@ -62,6 +63,6 @@ namespace test.Services.BusinessLogic
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-      
+
     }
 }
