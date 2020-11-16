@@ -7,6 +7,7 @@ using test.Domain.Core;
 using test.Services.BusinessLogic;
 using System.Linq;
 using System.Security.Claims;
+using test.Domain.Interfaces;
 
 namespace EmailApp.Controllers
 {
@@ -14,11 +15,12 @@ namespace EmailApp.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        private readonly ISender _emailService;
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, ISender emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailService = emailService;
         }
         [HttpGet]
         public IActionResult Register()
@@ -30,23 +32,21 @@ namespace EmailApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User { Email = model.Email, UserName = model.Email };
-                // добавляем пользователя
+                User user = new User { Email = model.Email, UserName = model.Email, isBlocked = false };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    // генерация токена для пользователя
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Action(
                         "ConfirmEmail",
                         "Account",
                         new { userId = user.Id, code = code },
                         protocol: HttpContext.Request.Scheme);
-                    EmailService emailService = new EmailService();
-                    await emailService.SendEmailAsync(model.Email, "Confirm your account",
+                    await _emailService.SendMessage(model.Email, "Confirm your account",
                         $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>");
 
-                    return Content("Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
+                    ViewData["Text"] = "Для завершения регистрации проверьте электронную почту";
+                    return View("~/Views/Shared/TextPage.cshtml");
                 }
                 else
                 {

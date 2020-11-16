@@ -1,19 +1,22 @@
 ﻿using MailKit.Net.Smtp;
+using Microsoft.Extensions.Configuration;
 using MimeKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using test.Domain.Interfaces;
 
 namespace test.Services.BusinessLogic
 {
-    public class EmailService
+    public class EmailService : ISender
     {
-        public async Task SendEmailAsync(string email, string subject, string message)
+       
+        public async Task SendMessage(string email, string subject, string message)
         {
             var emailMessage = new MimeMessage();
 
-            emailMessage.From.Add(new MailboxAddress("DogsBlog", "archibald01@mail.ru"));
+            emailMessage.From.Add(new MailboxAddress("DogBlogs", "archibald01@mail.ru"));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)

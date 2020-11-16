@@ -14,6 +14,7 @@ using test.Domain.Core;
 using test.Services.BusinessLogic;
 using test.Infrastructure.Data;
 using test.HubS;
+using test.Domain.Interfaces;
 
 namespace test
 {
@@ -49,7 +50,7 @@ namespace test
             services.AddScoped<DogRepository>();
             services.AddScoped<TopicRepository>();
             services.AddScoped<CommentRepository>();
-            services.AddTransient<EmailService>();
+            services.AddTransient<ISender, EmailService>();
             services.AddSingleton<ImageService>();
 
             services.AddAuthentication()
