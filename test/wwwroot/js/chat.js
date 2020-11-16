@@ -15,6 +15,8 @@ connection.on("ReceiveMessage", function (UserName, Text, DateTime) {
 });
 
 connection.start().then(function () {
+    var Article = document.getElementById("PostInput").value;
+    connection.invoke('JoinPostGroup', Article);
     document.getElementById("sendButton").disabled = false;
 }).catch(function (err) {
     return console.error(err.toString());

@@ -20,6 +20,12 @@ namespace test.HubS
             _context = context;
         }
 
+        public async Task JoinPostGroup(string ArticleID)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, ArticleID);
+        }
+
+
         public async Task SendMessage(string ArticleID, string Text)
         {
             var user = await _userManager.FindByNameAsync(Context.User.Identity.Name);
@@ -30,7 +36,7 @@ namespace test.HubS
             comment.Text = Text;
             _context.Add(comment);
             await _context.SaveChangesAsync();
-            await Clients.All.SendAsync("ReceiveMessage", user.UserName, comment.Text, comment.DateTime);
+            await Clients.Group(ArticleID).SendAsync("ReceiveMessage", user.UserName, comment.Text, comment.DateTime);
         }
     }
 }
