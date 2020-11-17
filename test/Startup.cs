@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +18,7 @@ using test.Services.BusinessLogic;
 using test.Infrastructure.Data;
 using test.HubS;
 using test.Domain.Interfaces;
+using Microsoft.AspNetCore.Routing;
 
 namespace test
 {
@@ -86,10 +90,18 @@ namespace test
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                   name: "MethodWithId",
+                   pattern: "{controller}/{action}/{id}");
+                endpoints.MapControllerRoute(
+                   name: "MainPage",
+                   pattern: "Posts/Index/{id?}");
+                endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}");
                 endpoints.MapHub<HabrDotNetHub>("/chathub");
             });
+            
         }
+
     }
 }

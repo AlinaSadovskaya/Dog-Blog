@@ -29,12 +29,8 @@ namespace test.Controllers
         }
 
         // GET: Topics/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
             var topic = await _topicRepository.FirstOrDefaultAsync(id);
 
@@ -68,13 +64,8 @@ namespace test.Controllers
         }
 
         // GET: Topics/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var topic = await _topicRepository.FirstOrDefaultAsync(id);
 
             if (topic == null)
@@ -120,12 +111,8 @@ namespace test.Controllers
         }
 
         // GET: Topics/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
             var topic = await _topicRepository.FirstOrDefaultAsync(id);
 

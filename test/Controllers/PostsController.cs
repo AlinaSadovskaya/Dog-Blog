@@ -66,14 +66,8 @@ namespace test.Controllers
 
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                _logger.LogError("Doesn't exist id. Controller:Post. Action:Details");
-                return RedirectPermanent("~/Error/Index?statusCode=404");
-            }
-
             var post = await _postRepository.FirstOrDefaultAsync(id);
             if (post == null)
             {
@@ -146,15 +140,8 @@ namespace test.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-
-            if (id == null)
-            {
-                _logger.LogError("Doesn't exist id. Controller:Post. Action:Edit. id = null");
-                return RedirectPermanent("~/Error/Index?statusCode=404");
-            }
-
             var post = await _postRepository.FirstOrDefaultAsync(id);
             if (post == null)
             {
@@ -213,14 +200,8 @@ namespace test.Controllers
             return View(post);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                _logger.LogError("Doesn't exist id. Controller:Post. Action:Delete");
-                return RedirectPermanent("~/Error/Index?statusCode=404");
-            }
-
             var post = await _postRepository.FirstOrDefaultAsync(id);
             if (post == null)
             {
