@@ -45,6 +45,11 @@ namespace test.Services.BusinessLogic
         }
         private bool disposed = false;
 
+        public async Task<List<Post>> FindAll()
+        {
+            return await _context.Posts.ToListAsync();
+        }
+
         public virtual void Dispose(bool disposing)
         {
             if (!this.disposed)

@@ -64,5 +64,10 @@ namespace test.Services.BusinessLogic
             GC.SuppressFinalize(this);
         }
 
+        public async Task<List<Dog>> FindAll()
+        {
+            return await _context.Dogs.ToListAsync();
+        }
+
     }
 }

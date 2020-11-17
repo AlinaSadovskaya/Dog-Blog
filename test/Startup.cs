@@ -93,7 +93,7 @@ namespace test
                    name: "MethodWithId",
                    pattern: "{controller}/{action}/{id}");
                 endpoints.MapControllerRoute(
-                   name: "MainPage",
+                   name: "MethodWithNullId",
                    pattern: "Posts/Index/{id?}");
                 endpoints.MapControllerRoute(
                     name: "default",

@@ -46,6 +46,10 @@ namespace test.Services.BusinessLogic
         }
         private bool disposed = false;
 
+        public List<Comment> FindAllByPost(int PostId)
+        {
+            return _context.Comments.Include(s => s.Post).Where(s => s.PostId == PostId).ToList();
+        }
         public virtual void Dispose(bool disposing)
         {
             if (!this.disposed)
