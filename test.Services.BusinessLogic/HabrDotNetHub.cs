@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using test.Domain.Core;
 using test.Infrastructure.Data;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 
-namespace test.HubS
+namespace test.Services.BusinessLogic
 {
     public class HabrDotNetHub : Hub
     {
         private readonly UserManager<User> _userManager;
-        private readonly BlogContext _context;
+        private readonly CommentRepository _commentRepository;
 
-        public HabrDotNetHub(UserManager<User> userManager,BlogContext context)
+        public HabrDotNetHub(UserManager<User> userManager, CommentRepository commentRepository)
         {
             _userManager = userManager;
-            _context = context;
+            _commentRepository = commentRepository;
         }
 
         public async Task JoinPostGroup(string ArticleID)
@@ -34,8 +34,7 @@ namespace test.HubS
             comment.DateTime = DateTime.Now;
             comment.PostId = Int32.Parse(ArticleID);
             comment.Text = Text;
-            _context.Add(comment);
-            await _context.SaveChangesAsync();
+            await _commentRepository.Create(comment);
             await Clients.Group(ArticleID).SendAsync("ReceiveMessage", user.UserName, comment.Text, comment.DateTime);
         }
     }

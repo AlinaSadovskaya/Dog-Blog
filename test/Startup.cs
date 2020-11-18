@@ -16,9 +16,7 @@ using Microsoft.Extensions.Hosting;
 using test.Domain.Core;
 using test.Services.BusinessLogic;
 using test.Infrastructure.Data;
-using test.HubS;
 using test.Domain.Interfaces;
-using Microsoft.AspNetCore.Routing;
 
 namespace test
 {
