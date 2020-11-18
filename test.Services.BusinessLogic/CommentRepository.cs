@@ -50,6 +50,10 @@ namespace test.Services.BusinessLogic
         {
             return _context.Comments.Include(s => s.Post).Where(s => s.PostId == PostId).ToList();
         }
+        public List<Comment> FindAllByUser(User user)
+        {
+            return _context.Comments.Include(s => s.User).Where(s => s.User == user).ToList();
+        }
         public virtual void Dispose(bool disposing)
         {
             if (!this.disposed)

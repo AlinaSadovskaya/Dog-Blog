@@ -15,7 +15,10 @@ using test.Infrastructure.Data;
 using test.ViewModels;
 using Serilog;
 using Serilog.Events;
-
+using Microsoft.Azure.Services.AppAuthentication;
+using Microsoft.Azure.KeyVault;
+using Microsoft.Extensions.Configuration.AzureKeyVault;
+using Azure.Identity;
 
 namespace test
 {
@@ -61,10 +64,24 @@ namespace test
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
+        .ConfigureAppConfiguration((ctx, builder) =>
+        {
+            var keyVaultEndpoint = GetKeyVaultEndpoint();
+            if (!string.IsNullOrEmpty(keyVaultEndpoint))
+            {
+                var azureServiceTokenProvider = new AzureServiceTokenProvider();
+                var keyVaultClient = new KeyVaultClient(
+                    new KeyVaultClient.AuthenticationCallback(
+                        azureServiceTokenProvider.KeyVaultTokenCallback));
+                builder.AddAzureKeyVault(
+                keyVaultEndpoint, keyVaultClient, new DefaultKeyVaultSecretManager());
+            }
+        })
         .ConfigureWebHostDefaults(webBuilder =>
         {
             webBuilder.UseStartup<Startup>();
         })
             .UseSerilog();
+        private static string GetKeyVaultEndpoint() => Environment.GetEnvironmentVariable("VaultUri");
     }
 }

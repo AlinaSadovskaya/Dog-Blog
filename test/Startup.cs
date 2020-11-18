@@ -60,9 +60,12 @@ namespace test
             services.AddAuthentication()
                 .AddGoogle(options =>
                 {
-                    options.ClientId = "822625351685-35p3lib3eh36dhnrtt2so3n59l5saf08.apps.googleusercontent.com";
-                    options.ClientSecret = "fD5jE4DXNTc6emdnsHIsbBxc";
+                    options.ClientId = Configuration["Authentication:Google:ClientId"];
+                    options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                  //  options.ClientId = "822625351685-35p3lib3eh36dhnrtt2so3n59l5saf08.apps.googleusercontent.com";
+                  //  options.ClientSecret = "fD5jE4DXNTc6emdnsHIsbBxc";
                 });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

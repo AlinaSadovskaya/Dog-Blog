@@ -38,7 +38,10 @@ namespace test.Services.BusinessLogic
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
         }
-
+        public List<Post> FindAllByUser(string UserId)
+        {
+            return _context.Posts.Include(s => s.User).Where(s => s.UserId == UserId).ToList();
+        }
         public async Task<Post> FirstOrDefaultAsync(int? id)
         {
             return await _context.Posts.FirstOrDefaultAsync(m => m.PostId == id);

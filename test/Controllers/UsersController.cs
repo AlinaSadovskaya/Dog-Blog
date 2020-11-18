@@ -17,11 +17,14 @@ namespace test.Controllers
     {
         UserManager<User> _userManager;
         private readonly BlogContext _context;
-
-        public UsersController(UserManager<User> userManager, BlogContext context)
+        private readonly PostRepository _postRepository;
+        private readonly CommentRepository _commentRepository;
+        public UsersController(UserManager<User> userManager, BlogContext context, PostRepository postRepository, CommentRepository commentRepository)
         {
             _userManager = userManager;
             _context = context;
+            _postRepository = postRepository;
+            _commentRepository = commentRepository;
         }
 
         public IActionResult Index() => View(_userManager.Users.ToList());
@@ -89,11 +92,14 @@ namespace test.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<ActionResult> Delete(string id)
         {
             User user = await _userManager.FindByIdAsync(id);
-            if (user != null)
+            var Posts = _postRepository.FindAllByUser(id);
+            var Comments = _commentRepository.FindAllByUser(user);
+            if (user != null && Posts == null && Comments == null)
             {
                 IdentityResult result = await _userManager.DeleteAsync(user);
             }
