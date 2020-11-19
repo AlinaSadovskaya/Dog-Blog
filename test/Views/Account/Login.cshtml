@@ -30,6 +30,7 @@
         <h1>External Login</h1>
         <hr />
         @{ 
+          if(Model.ExternalLogins != null)
             if(Model.ExternalLogins.Count == 0)
             {
                 <div>No external logins configured</div>
@@ -52,5 +53,6 @@
         
             }
         }
+        
     </div>
 </div>

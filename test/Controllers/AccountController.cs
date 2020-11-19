@@ -112,6 +112,7 @@ namespace EmailApp.Controllers
                 }
                 else
                 {
+                    model.ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
                     ModelState.AddModelError("", "Неправильный логин и (или) пароль");
                 }
             }

@@ -99,7 +99,7 @@ namespace test.Controllers
             User user = await _userManager.FindByIdAsync(id);
             var Posts = _postRepository.FindAllByUser(id);
             var Comments = _commentRepository.FindAllByUser(user);
-            if (user != null && Posts == null && Comments == null)
+            if (user != null && Posts.Count == 0 && Comments.Count == 0)
             {
                 IdentityResult result = await _userManager.DeleteAsync(user);
             }
