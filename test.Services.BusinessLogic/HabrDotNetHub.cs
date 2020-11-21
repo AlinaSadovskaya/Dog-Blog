@@ -30,8 +30,10 @@ namespace test.Services.BusinessLogic
         {
             var user = await _userManager.FindByNameAsync(Context.User.Identity.Name);
             Comment comment = new Comment();
+            DateTime timeUtc = DateTime.UtcNow;
+            TimeZoneInfo kstZone = TimeZoneInfo.FindSystemTimeZoneById("Russian Standard Time");
+            comment.DateTime = TimeZoneInfo.ConvertTimeFromUtc(timeUtc, kstZone);
             comment.User = user;
-            comment.DateTime = DateTime.Now;
             comment.PostId = Int32.Parse(ArticleID);
             comment.Text = Text;
             await _commentRepository.Create(comment);
