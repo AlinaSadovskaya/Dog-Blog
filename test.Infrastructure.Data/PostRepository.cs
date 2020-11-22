@@ -18,10 +18,6 @@ namespace test.Services.BusinessLogic
             _context = context;
         }
 
-        public bool Any(int id)
-        {
-            return _context.Posts.Any(e => e.PostId == id); ;
-        }
         public List<Post> FindAllByUser(string UserId)
         {
             return _context.Posts.Include(s => s.User).Where(s => s.UserId == UserId).ToList();

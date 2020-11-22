@@ -49,8 +49,8 @@ namespace test
             services.AddDbContext<BlogContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("test")));
             services.AddScoped<PostRepository>();
-            services.AddScoped<DogRepository>();
-            services.AddScoped<TopicRepository>();
+            services.AddScoped<Repository<Dog, int>>();
+            services.AddScoped<Repository<Topic, int>>();
             services.AddScoped<Repository<User, string>>();
             services.AddScoped<CommentRepository>();
             services.AddTransient<ISender, EmailService>();

@@ -10,7 +10,7 @@ namespace XUnitTestProject
 {
     public class DogTest
     {
-        private DogRepository repository;
+        private Repository<Dog,int> repository;
         public static DbContextOptions<BlogContext> dbContextOptions { get; }
         public static string connectionString = "Server=(localdb)\\mssqllocaldb;Database=RazorPagesMovieContext13-bc;Trusted_Connection=True;MultipleActiveResultSets=true";
 
@@ -27,7 +27,7 @@ namespace XUnitTestProject
             var context = new BlogContext(dbContextOptions);
             InicializeDB db = new InicializeDB();
             db.Seed(context);
-            repository = new DogRepository(context);
+            repository = new Repository<Dog, int>(context);
         }
         [Fact]
                                                                                                                                                                                                                                                                                                                 public async void TestFindAllTag()
@@ -39,7 +39,7 @@ namespace XUnitTestProject
         [Fact]
         public async void TestFirstOrDefaultAsyncDog()
         {
-            var Dog = await repository.FirstOrDefaultAsync(2);
+            var Dog = await repository.getSet().FirstOrDefaultAsync(m => m.DogId == 2);
             Assert.NotNull(Dog);
             Assert.Equal("Test2", Dog.DogName);
             Assert.Equal("Test2", Dog.DogDescription);
@@ -48,7 +48,7 @@ namespace XUnitTestProject
         [Fact]
         public async void TestRemoveDog()
         {
-            var Dog = await repository.FirstOrDefaultAsync(2);
+            var Dog = await repository.getSet().FirstOrDefaultAsync(m => m.DogId == 2);
             await repository.Remove(Dog);
             var Dogs = await repository.FindAll();
             Assert.NotNull(Dogs);
@@ -67,10 +67,10 @@ namespace XUnitTestProject
         [Fact]
         public async void TestUpdateDog()
         {
-            var Dog = await repository.FirstOrDefaultAsync(2);
+            var Dog = await repository.getSet().FirstOrDefaultAsync(m => m.DogId == 2);
             Dog.DogDescription = "Updated";
             await repository.Update(Dog);
-            Dog = await repository.FirstOrDefaultAsync(2);
+            Dog = await repository.getSet().FirstOrDefaultAsync(m => m.DogId == 2);
             Assert.NotNull(Dog);
             Assert.Equal("Updated", Dog.DogDescription);
         }

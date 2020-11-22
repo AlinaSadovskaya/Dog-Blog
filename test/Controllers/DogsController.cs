@@ -20,8 +20,8 @@ namespace test.Controllers
     {
         private readonly IWebHostEnvironment _appEnvironment;
         private readonly ImageService _imageService;
-        private readonly DogRepository _dogRepository;
-        public DogsController( IWebHostEnvironment appEnvironment, ImageService imageService, DogRepository dogRepository)
+        private readonly Repository<Dog,int> _dogRepository;
+        public DogsController( IWebHostEnvironment appEnvironment, ImageService imageService, Repository<Dog, int> dogRepository)
         {
                 _appEnvironment = appEnvironment;
                 _imageService = imageService;
@@ -31,14 +31,14 @@ namespace test.Controllers
         // GET: Dogs
         public async Task<IActionResult> Index()
         {
-            return View(_dogRepository.FindAll());
+            return View(await _dogRepository.FindAll());
         }
 
         // GET: Dogs/Details/5
         public async Task<IActionResult> Details(int id)
         {
 
-            var dog = await _dogRepository.FirstOrDefaultAsync(id);
+            var dog = await _dogRepository.getSet().FirstOrDefaultAsync(m => m.DogId == id);
             if (dog == null)
             {
                 return NotFound();
@@ -81,7 +81,7 @@ namespace test.Controllers
         // GET: Dogs/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var dog = await _dogRepository.FirstOrDefaultAsync(id);
+            var dog = await _dogRepository.getSet().FirstOrDefaultAsync(m => m.DogId == id);
 
             if (dog == null)
             {
@@ -102,7 +102,7 @@ namespace test.Controllers
                 return NotFound();
             }
 
-            var dog1 = await _dogRepository.FirstOrDefaultAsync(id);
+            var dog1 = await _dogRepository.getSet().FirstOrDefaultAsync(m => m.DogId == id);
             if (ModelState.IsValid)
             {
                 try
@@ -141,7 +141,7 @@ namespace test.Controllers
         // GET: Dogs/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var dog = await _dogRepository.FirstOrDefaultAsync(id);
+            var dog = await _dogRepository.getSet().FirstOrDefaultAsync(m => m.DogId == id);
 
             if (dog == null)
             {
@@ -156,14 +156,14 @@ namespace test.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var dog = await _dogRepository.FirstOrDefaultAsync(id);
+            var dog = await _dogRepository.getSet().FirstOrDefaultAsync(m => m.DogId == id);
             await _dogRepository.Remove(dog);
             return RedirectToAction(nameof(Index));
         }
 
         private bool DogExists(int id)
         {
-            return _dogRepository.Any(id);
+            return _dogRepository.getSet().Any(e => e.DogId == id);
         }
     }
 }

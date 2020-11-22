@@ -27,11 +27,11 @@ namespace test.Controllers
         private readonly ILogger<PostsController> _logger;
         private readonly ImageService _imageService;
         private readonly PostRepository _postRepository;
-        private readonly TopicRepository _topicRepository;
+        private readonly Repository<Topic, int> _topicRepository;
         private readonly CommentRepository _commentRepository;
         private readonly Repository<User, string> _userRepository;
         List<Topic> _topics;
-        public PostsController(UserManager<User> userManager,IWebHostEnvironment appEnvironment, ImageService imageService, PostRepository postRepository, ILogger<PostsController> logger, TopicRepository topicRepository, CommentRepository commentRepository, Repository<User, string> userRepository)
+        public PostsController(UserManager<User> userManager,IWebHostEnvironment appEnvironment, ImageService imageService, PostRepository postRepository, ILogger<PostsController> logger, Repository<Topic, int> topicRepository, CommentRepository commentRepository, Repository<User, string> userRepository)
         {
             _logger = logger;
             _userManager = userManager;
@@ -227,7 +227,7 @@ namespace test.Controllers
 
         private bool PostExists(int id)
         {
-            return _postRepository.Any(id);
+            return _postRepository.getSet().Any(e => e.PostId == id); 
         }
     }
 }

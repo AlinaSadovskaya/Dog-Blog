@@ -39,14 +39,14 @@ namespace test.Services.XUnitTestProject
         [Fact]
         public async void TestFirstOrDefaultAsyncTopic()
         {
-            var Topic = await repository.FirstOrDefaultAsync(3);
+            var Topic = await repository.getSet().FirstOrDefaultAsync(m => m.TopicId == 3);
             Assert.NotNull(Topic);
             Assert.Equal("Test3", Topic.TopicName);
         }
         [Fact]
         public async void TestRemoveTopic()
         {
-            var Topic = await repository.FirstOrDefaultAsync(3);
+            var Topic = await repository.getSet().FirstOrDefaultAsync(m => m.TopicId == 3);
             await repository.Remove(Topic);
             var Topics = await repository.FindAll();
             Assert.NotNull(Topics);

@@ -13,9 +13,9 @@ namespace test.Controllers
 {
     public class TopicsController : Controller
     {
-        private readonly TopicRepository _topicRepository;
+        private readonly Repository<Topic, int> _topicRepository;
 
-        public TopicsController(TopicRepository topicRepository)
+        public TopicsController(Repository<Topic, int> topicRepository)
         {
             _topicRepository = topicRepository;
         }
@@ -30,7 +30,7 @@ namespace test.Controllers
         public async Task<IActionResult> Details(int id)
         {
 
-            var topic = await _topicRepository.FirstOrDefaultAsync(id);
+            var topic = await _topicRepository.getSet().FirstOrDefaultAsync(m => m.TopicId == id);
 
             if (topic == null)
             {
@@ -64,7 +64,7 @@ namespace test.Controllers
         // GET: Topics/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var topic = await _topicRepository.FirstOrDefaultAsync(id);
+            var topic = await _topicRepository.getSet().FirstOrDefaultAsync(m => m.TopicId == id);
 
             if (topic == null)
             {
@@ -112,7 +112,7 @@ namespace test.Controllers
         public async Task<IActionResult> Delete(int id)
         {
 
-            var topic = await _topicRepository.FirstOrDefaultAsync(id);
+            var topic = await _topicRepository.getSet().FirstOrDefaultAsync(m => m.TopicId == id);
 
             if (topic == null)
             {
@@ -127,14 +127,14 @@ namespace test.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var topic = await _topicRepository.FirstOrDefaultAsync(id);
+            var topic = await _topicRepository.getSet().FirstOrDefaultAsync(m => m.TopicId == id);
             await _topicRepository.Remove(topic);
             return RedirectToAction(nameof(Index));
         }
 
         private bool TopicExists(int id)
         {
-            return _topicRepository.Any(id);
+            return _topicRepository.getSet().Any(e => e.TopicId == id);
         }
     }
 }
