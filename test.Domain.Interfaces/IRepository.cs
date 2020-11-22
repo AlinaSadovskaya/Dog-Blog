@@ -11,8 +11,8 @@ namespace test.Domain.Interfaces
     {
         Task Create(T post);
         Task Update(T post);
-        bool Any(Y id);
+       // bool Any(Y id);
         Task Remove(T post);
-        Task<T> FirstOrDefaultAsync(int? id);
+      //  Task<T> FirstOrDefaultAsync(int? id);
     }
 }
