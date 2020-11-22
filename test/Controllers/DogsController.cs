@@ -18,13 +18,11 @@ namespace test.Controllers
 {
     public class DogsController : Controller
     {
-        private readonly BlogContext _context;
         private readonly IWebHostEnvironment _appEnvironment;
         private readonly ImageService _imageService;
         private readonly DogRepository _dogRepository;
-        public DogsController(BlogContext context, IWebHostEnvironment appEnvironment, ImageService imageService, DogRepository dogRepository)
+        public DogsController( IWebHostEnvironment appEnvironment, ImageService imageService, DogRepository dogRepository)
         {
-                _context = context;
                 _appEnvironment = appEnvironment;
                 _imageService = imageService;
                 _dogRepository = dogRepository;
@@ -33,7 +31,7 @@ namespace test.Controllers
         // GET: Dogs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Dogs.ToListAsync());
+            return View(_dogRepository.FindAll());
         }
 
         // GET: Dogs/Details/5
@@ -68,7 +66,6 @@ namespace test.Controllers
                 if (uploadedFile != null && uploadedFile.ContentType.ToLower().Contains("image"))
                 {
                     dog.DogImage = await _imageService.SaveImageAsync(uploadedFile, 0);
-                    _context.SaveChanges();
                 }
                 else
                 {

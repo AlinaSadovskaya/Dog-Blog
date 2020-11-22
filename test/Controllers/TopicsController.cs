@@ -13,19 +13,17 @@ namespace test.Controllers
 {
     public class TopicsController : Controller
     {
-        private readonly BlogContext _context;
         private readonly TopicRepository _topicRepository;
 
-        public TopicsController(BlogContext context, TopicRepository topicRepository)
+        public TopicsController(TopicRepository topicRepository)
         {
-            _context = context;
             _topicRepository = topicRepository;
         }
 
         // GET: Topics
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Topics.ToListAsync());
+            return View(await _topicRepository.getSet().ToListAsync());
         }
 
         // GET: Topics/Details/5
@@ -92,7 +90,7 @@ namespace test.Controllers
                 try
                 {
                     await _topicRepository.Update(topic);
-                    await _context.SaveChangesAsync();
+                //    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {

@@ -2545,3 +2545,89 @@ System.NullReferenceException: Object reference not set to an instance of an obj
 2020-11-22 20:01:37.456 +03:00 [ERR] Error. Status code 404
 2020-11-22 20:01:39.714 +03:00 [ERR] Error. Status code 404
 2020-11-22 20:20:02.329 +03:00 [ERR] Error. Status code 404
+2020-11-22 20:36:05.494 +03:00 [ERR] Error. Status code 404
+2020-11-22 20:36:40.239 +03:00 [ERR] Error. Status code 404
+2020-11-22 20:36:40.288 +03:00 [ERR] Error. Status code 404
+2020-11-22 20:36:53.234 +03:00 [ERR] Error. Status code 404
+2020-11-22 20:37:35.677 +03:00 [ERR] Error. Status code 404
+2020-11-22 20:37:35.753 +03:00 [ERR] Error. Status code 404
+2020-11-22 20:37:35.790 +03:00 [ERR] Error. Status code 404
+2020-11-22 20:37:44.211 +03:00 [ERR] Error. Status code 404
+2020-11-22 20:37:44.261 +03:00 [ERR] Error. Status code 404
+2020-11-22 20:37:44.344 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:13:02.069 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:13:37.909 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:13:37.933 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:13:46.348 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:13:46.370 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:13:46.420 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:15:43.310 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:15:54.731 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:15:54.731 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:15:54.789 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:15:58.092 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:16:21.871 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:16:26.171 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:16:26.171 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:16:29.865 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:16:29.865 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:16:33.725 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:16:33.725 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:18:25.447 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:18:43.470 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:18:43.527 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:18:49.180 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:18:49.201 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:18:49.251 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:18:55.791 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:18:55.797 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:19:12.548 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:19:12.551 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:19:27.550 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:19:36.290 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:19:46.753 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:19:46.919 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:19:50.048 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:34:27.437 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:34:27.945 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:36:35.616 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:36:39.594 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:36:43.189 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:36:46.125 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:36:47.856 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:36:58.468 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:39:17.453 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:39:20.972 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:39:25.012 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:39:27.815 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:39:34.801 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:39:45.118 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:40:52.725 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:41:01.780 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:41:06.816 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:41:14.553 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:41:17.425 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:41:25.922 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:43:19.075 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:44:50.974 +03:00 [ERR] An unhandled exception has occurred while executing the request.
+System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+   at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at test.Controllers.UsersController.UserBlocked(String UserName) in D:\test\test\Controllers\UsersController.cs:line 164
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-11-22 21:45:11.531 +03:00 [ERR] Error. Status code 404
+2020-11-22 21:45:11.593 +03:00 [ERR] Error. Status code 404

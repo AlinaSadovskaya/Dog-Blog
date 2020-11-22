@@ -23,35 +23,38 @@ namespace test.Controllers
     {
 
         private readonly UserManager<User> _userManager;
-        private readonly BlogContext _context;
         private readonly IWebHostEnvironment _appEnvironment;
         private readonly ILogger<PostsController> _logger;
         private readonly ImageService _imageService;
         private readonly PostRepository _postRepository;
         private readonly TopicRepository _topicRepository;
+        private readonly CommentRepository _commentRepository;
+        private readonly Repository<User, string> _userRepository;
         List<Topic> _topics;
-        public PostsController(UserManager<User> userManager, BlogContext context, IWebHostEnvironment appEnvironment, ImageService imageService, PostRepository postRepository, ILogger<PostsController> logger, TopicRepository topicRepository)
+        public PostsController(UserManager<User> userManager,IWebHostEnvironment appEnvironment, ImageService imageService, PostRepository postRepository, ILogger<PostsController> logger, TopicRepository topicRepository, CommentRepository commentRepository, Repository<User, string> userRepository)
         {
             _logger = logger;
             _userManager = userManager;
-            _context = context;
             _appEnvironment = appEnvironment;
             _imageService = imageService;
             _postRepository = postRepository;
             _topicRepository = topicRepository;
+            _commentRepository = commentRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<IActionResult> Index(int? TopicId)
         {
-            this._topics = await _context.Topics.ToListAsync();
+            this._topics = await _topicRepository.FindAll();
             PostIndexViewModel ivm;
             
             if (TopicId != null)
             {
+                int id = (int)TopicId;
                 List<Post> posts;
                 try
                 {
-                    posts = await _context.Posts.Where(e => e.Topic.TopicId == TopicId).ToListAsync();
+                    posts = _postRepository.FindAllByTopic(id);
                 }
                 catch (Exception)
                 {
@@ -61,7 +64,7 @@ namespace test.Controllers
                 ivm = new PostIndexViewModel { Posts = posts, Topics = _topics };
                 return View(ivm);
             }
-            ivm = new PostIndexViewModel { Posts = await _context.Posts.ToListAsync(), Topics = _topics };
+            ivm = new PostIndexViewModel { Posts = await _postRepository.FindAll(), Topics = _topics };
             return View(ivm);
 
         }
@@ -75,7 +78,7 @@ namespace test.Controllers
                 return RedirectPermanent("~/Error/Index?statusCode=404");
             }
 
-            var user = await _context.Users.FindAsync(post.UserId);
+            User user = await _userRepository.FindAsyncById(post.UserId);
             if (user == null)
             {
                 _logger.LogError("Doesn't exist user. Controller:Post. Action:Details");
@@ -83,9 +86,9 @@ namespace test.Controllers
             }
             ViewData["UserName"] = user.UserName;
             List<Comment> comments = new List<Comment>();
-            foreach (var item in _context.Comments.Include(s => s.Post).Where(s => s.PostId == post.PostId).ToList())
+            foreach (var item in  _commentRepository.FindAllByPost(post.PostId).ToList())
             {
-                item.User = await _context.Users.FindAsync(item.UserId);
+                item.User = await _userRepository.FindAsyncById(item.UserId);
                 comments.Add(item);
             }
 
@@ -100,9 +103,9 @@ namespace test.Controllers
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             if (!user.isBlocked)
             {
-                SelectList topics = new SelectList(_context.Topics, "TopicID", "TopicName");
+                SelectList topics = new SelectList(_topicRepository.getSet(), "TopicID", "TopicName");
                 ViewBag.Topics = topics;
-                ViewData["topics"] = _context.Topics.ToList();
+                ViewData["topics"] = await _topicRepository.FindAll();
                 return View();
             }
             else
@@ -131,7 +134,7 @@ namespace test.Controllers
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 post.User = user;
                 post.DateTime = DateTime.Now;
-                post.Topic = await _context.Topics.FindAsync(post.TopicId);
+                post.Topic = await _topicRepository.FindAsyncById(post.TopicId);
                 await _postRepository.Create(post);
                 return RedirectPermanent("~/Posts/Index");
             }

@@ -26,6 +26,10 @@ namespace test.Services.BusinessLogic
         {
             return _context.Posts.Include(s => s.User).Where(s => s.UserId == UserId).ToList();
         }
+        public List<Post> FindAllByTopic(int TopicId)
+        {
+            return _context.Posts.Include(s => s.Topic).Where(s => s.TopicId == TopicId).ToList();
+        }
         public async Task<Post> FirstOrDefaultAsync(int? id)
         {
             return await _context.Posts.FirstOrDefaultAsync(m => m.PostId == id);

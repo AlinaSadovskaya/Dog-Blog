@@ -16,15 +16,15 @@ namespace test.Controllers
     public class UsersController : Controller
     {
         UserManager<User> _userManager;
-        private readonly BlogContext _context;
         private readonly PostRepository _postRepository;
         private readonly CommentRepository _commentRepository;
-        public UsersController(UserManager<User> userManager, BlogContext context, PostRepository postRepository, CommentRepository commentRepository)
+        private readonly Repository<User, string> _userRepository;
+        public UsersController(UserManager<User> userManager, PostRepository postRepository, CommentRepository commentRepository, Repository<User, string> userRepository)
         {
             _userManager = userManager;
-            _context = context;
             _postRepository = postRepository;
             _commentRepository = commentRepository;
+            _userRepository = userRepository;
         }
 
         public IActionResult Index() => View(_userManager.Users.ToList());
@@ -160,7 +160,7 @@ namespace test.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> UserBlocked(string? UserName)
         {
-            var user = await _context.Users.Where(e => e.UserName == UserName).ToListAsync();
+            var user = await _userRepository.getSet().Where(e => e.UserName == UserName).ToListAsync();
             if (user[0].isBlocked)
             {
                 user[0].isBlocked = false;
@@ -169,15 +169,15 @@ namespace test.Controllers
             {
                 user[0].isBlocked = true;
             }
-            _context.Update(user[0]);
-            await _context.SaveChangesAsync();
-            return View("Index", await _context.Users.Where(e => e.UserName != "admin").ToListAsync());
+            await _userRepository.Update(user[0]);
+           // await _context.SaveChangesAsync();
+            return View("Index", await _userRepository.getSet().Where(e => e.UserName != "admin").ToListAsync());
         }
 
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> AdminPage(string? UserName)
         {
-            return View(await _context.Users.Where(e => e.UserName != "admin").ToListAsync());
+            return View(await _userRepository.getSet().Where(e => e.UserName != "admin").ToListAsync());
         }
     }
 }

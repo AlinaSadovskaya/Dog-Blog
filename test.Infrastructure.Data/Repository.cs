@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace test.Infrastructure.Data
 {
-    public class Repository<T, Y> : IRepository<T, Y> where T : class
+    public class Repository<T, Y> : IRepository<T, Y> where T: class
     {
         private readonly BlogContext _context;
         private readonly DbSet<T> _dbSet;
@@ -37,6 +37,11 @@ namespace test.Infrastructure.Data
             await _context.SaveChangesAsync();
         }
 
+        public async Task<T> FindAsyncById(Y id)
+        {
+            return await _dbSet.FindAsync(id); 
+        }
+
         private bool disposed = false;
 
         public virtual void Dispose(bool disposing)
@@ -55,6 +60,11 @@ namespace test.Infrastructure.Data
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public DbSet<T> getSet()
+        {
+            return _dbSet;
         }
 
         public async Task<List<T>> FindAll()

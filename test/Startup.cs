@@ -51,6 +51,7 @@ namespace test
             services.AddScoped<PostRepository>();
             services.AddScoped<DogRepository>();
             services.AddScoped<TopicRepository>();
+            services.AddScoped<Repository<User, string>>();
             services.AddScoped<CommentRepository>();
             services.AddTransient<ISender, EmailService>();
             services.AddSingleton<ImageService>();
