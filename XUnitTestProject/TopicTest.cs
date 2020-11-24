@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using test.Domain.Core;
 using test.Infrastructure.Data;
 using test.Services.BusinessLogic;
 using Xunit;
@@ -10,7 +11,7 @@ namespace test.Services.XUnitTestProject
 {
     public class TopicTest
     {
-        private TopicRepository repository;
+        private Repository<Topic, int> repository;
         public static DbContextOptions<BlogContext> dbContextOptions { get; }
         public static string connectionString = "Server=(localdb)\\mssqllocaldb;Database=RazorPagesMovieContext12-bc;Trusted_Connection=True;MultipleActiveResultSets=true";
 
@@ -27,7 +28,7 @@ namespace test.Services.XUnitTestProject
             var context = new BlogContext(dbContextOptions);
             InicializeDB db = new InicializeDB();
             db.Seed(context);
-            repository = new TopicRepository(context);
+            repository = new Repository<Topic, int>(context);
         }
         [Fact]
         public async void TestFindAllTag()
