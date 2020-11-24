@@ -6,13 +6,13 @@ using test.Domain.Core;
 
 namespace test.Domain.Interfaces
 {
-    public interface IRepository<T, Y> : IDisposable
+    public interface IRepository<T, Y> 
         where T : class
     {
         Task Create(T post);
         Task Update(T post);
-       // bool Any(Y id);
+        Task<List<T>> FindAll();
         Task Remove(T post);
-      //  Task<T> FirstOrDefaultAsync(int? id);
+        Task<T> FindAsyncById(Y id);
     }
 }
