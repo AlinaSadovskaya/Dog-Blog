@@ -93,59 +93,56 @@
                 </dd>
                 @if (User.IsInRole("admin") || ViewData["UserName"] as string == User.Identity.Name)
                 {
-                <a asp-action="Edit" asp-route-id="@Model.PostId">Edit</a>
-                <a asp-action="Index">Back to List</a>
-                }
-               
+    <a asp-action="Edit" asp-route-id="@Model.PostId">Edit</a>
+                    <a asp-action="Index">Back to List</a>}
+
             </div>
         </div>
         <div>
 
-       
-        <div style="background-color:white;border-radius:5px;margin-top:20px">
-            @if (User.Identity.IsAuthenticated)
-            {
-                <dd>
 
-                    <div class="form-group">
-                        <input type="hidden" asp-for="@Model.PostId" class="form-control" id="PostInput" />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label"> Коментарии</label>
-                        <input asp-for="Text" type="text" class="form-control" style="height:auto;" value=" " id="TextInput" />
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary" id="sendButton" />
-                    </div>
-
-                </dd>       
-            }
-        <ul style="min-height:300px;height:auto;background-color:white; border-radius:5px;" id="messagesList">
-            @foreach (var item in ViewData["Comment"] as IList<test.Domain.Core.Comment>)
-            {
-                
-                @if (User.IsInRole("specialist"))
+            <div style="background-color:white;border-radius:5px;margin-top:20px">
+                @if (User.Identity.IsAuthenticated)
                 {
-                            <li>
-                                <a href="">Логин:@item.User.UserName</a>
-                                <p>Коментарий:@item.Text</p>
-                                <p>Дата:@item.DateTime.ToString("MM/dd/yyyy HH:mm:ss")</p>
-                                <br />
-                            </li> }
-                 else
-                  {
-                            <li>
-                                <p>Логин:@item.User.UserName</p>
-                                <p>Коментарий:@item.Text</p>
-                                <p>Дата:@item.DateTime.ToString("MM/dd/yyyy HH:mm:ss")</p>
-                                <br />
-                            </li>}
-            }
-        </ul>
+    <dd>
+
+        <div class="form-group">
+            <input type="hidden" asp-for="@Model.PostId" class="form-control" id="PostInput" />
         </div>
-        <script src="~/js/signalr/dist/browser/signalr.js"></script>
-        <script src="~/js/chat.js"></script>
-    </div>
+        <div class="form-group">
+            <label class="control-label"> Коментарии</label>
+            <input asp-for="Text" type="text" class="form-control" style="height:auto;" value=" " id="TextInput" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" id="sendButton" />
+        </div>
+
+    </dd>   }
+                <ul style="min-height:300px;height:auto;background-color:white; border-radius:5px;" id="messagesList">
+                    @foreach (var item in ViewData["Comment"] as IList<test.Domain.Core.Comment>)
+                    {
+
+        @if (User.IsInRole("specialist"))
+        {
+<li>
+    <a href="">Логин:@item.User.UserName</a>
+    <p>Коментарий:@item.Text</p>
+    <p>Дата:@item.DateTime.ToString("MM/dd/yyyy HH:mm:ss")</p>
+    <br />
+</li> }
+                else
+                {
+<li>
+    <p>Логин:@item.User.UserName</p>
+    <p>Коментарий:@item.Text</p>
+    <p>Дата:@item.DateTime.ToString("MM/dd/yyyy HH:mm:ss")</p>
+    <br />
+</li>}}
+                </ul>
+            </div>
+            <script src="~/js/signalr/dist/browser/signalr.js"></script>
+            <script src="~/js/chat.js"></script>
+        </div>
 
     </section>
 
@@ -194,6 +191,7 @@
     <!-- loader -->
     <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" /><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#f4b214" /></svg></div>
 
+    <script src="~/js/date.convert.js"></script>
     <script src="~/js/jquery-3.2.1.min.js"></script>
     <script src="~/js/popper.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
